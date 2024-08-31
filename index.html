@@ -129,4 +129,56 @@
             ["Niharika", "W","W","2","2","2","2","2","W","W","1","1","1","1","1","W","W","2","2","2","2","2","W","W","*U","*U","*3","*3","*3","W","W"],
             ["Venkatesh B", "W","W","3","3","3","3","3","W","W","2","2","2","2","2","W","W","1","1","1","1","1","W","W","1","1","1","1","1","W","W"],
             ["Vignesh", "W","W","2","2","2","3","3","W","W","2","2","2","2","2","W","W","2","2","2","2","2","W","W","*2","*3","3","2","2","W","W"],
-            ["Koushik", "1","1","W","W","L","L","L","3","3","W
+            ["Koushik", "1","1","W","W","L","L","L","3","3","W","W","3","3","3","W","W","1","1","L","1","1","W","W","*2","*2","2","2","2","W","W"]
+        ];
+
+        const days = ["Employee", "1 Sep", "2 Sep", "3 Sep", "4 Sep", "5 Sep", "6 Sep", "7 Sep", "8 Sep", "9 Sep", "10 Sep", "11 Sep", "12 Sep", "13 Sep", "14 Sep", "15 Sep", "16 Sep", "17 Sep", "18 Sep", "19 Sep", "20 Sep", "21 Sep", "22 Sep", "23 Sep", "24 Sep", "25 Sep", "26 Sep", "27 Sep", "28 Sep", "29 Sep", "30 Sep"];
+        const legends = [
+            { label: "Weekend", className: "weekend" },
+            { label: "Weekly Off", className: "week-off" },
+            { label: "Leave", className: "leave" }
+        ];
+
+        const createTable = () => {
+            let table = "<table><thead><tr>";
+            for (let day of days) {
+                table += `<th>${day}</th>`;
+            }
+            table += "</tr></thead><tbody>";
+            
+            for (let row of schedule) {
+                table += "<tr>";
+                for (let [index, cell] of row.entries()) {
+                    let className = "";
+                    let content = cell;
+
+                    if (cell === "W") className = "week-off";
+                    if (cell === "L") className = "leave";
+                    if (cell === "2" || cell === "3" || cell === "1" || cell === "U") className = ""; // Modify based on shift specifics
+                    
+                    if (index === 0) className = "employee-name"; // Employee names have a sticky position
+                    if (cell.startsWith("*")) {
+                        content = `<strong><u>${cell.slice(1)}</u></strong>`;
+                    }
+                    
+                    table += `<td class="${className}">${content}</td>`;
+                }
+                table += "</tr>";
+            }
+            table += "</tbody></table>";
+            document.getElementById("schedule").innerHTML = table;
+        };
+
+        const createLegend = () => {
+            let legendHTML = "";
+            for (let legend of legends) {
+                legendHTML += `<div class="legend-item" style="background-color:${document.querySelector(`.${legend.className}`).style.backgroundColor}">${legend.label}</div>`;
+            }
+            document.getElementById("legend").innerHTML = legendHTML;
+        };
+
+        createTable();
+        createLegend();
+    </script>
+</body>
+</html>
