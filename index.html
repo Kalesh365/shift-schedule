@@ -3,270 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mobile-Friendly Team Shift Schedule - September</title>
+    <title>September Shift Schedule</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-        
-        :root {
-            --primary: #7c3aed;
-            --primary-light: #a78bfa;
-            --secondary: #10b981;
-            --accent: #f59e0b;
-            --background: #f8fafc;
-            --card: #ffffff;
-            --text: #334155;
-            --text-light: #64748b;
-        }
-        
-        * {
-            box-sizing: border-box;
-        }
-        
         body {
-            font-family: 'Poppins', sans-serif;
-            line-height: 1.6;
+            font-family: Arial, sans-serif;
             margin: 0;
-            padding: 1rem;
-            background-color: var(--background);
-            color: var(--text);
-            font-size: 16px;
+            padding: 10px;
+            background-color: #f0f0f0;
         }
         h1 {
-            color: var(--primary);
             text-align: center;
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            font-weight: 600;
-        }
-        .schedule-container {
-            max-width: 100%;
-            overflow-x: auto;
-            background: var(--card);
-            border-radius: 1rem;
-            box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.05);
-            padding: 1rem;
-            transition: box-shadow 0.3s ease;
-        }
-        .schedule-container:hover {
-            box-shadow: 0 0.75rem 1.5rem rgba(0,0,0,0.1);
+            color: #333;
         }
         table {
-            border-collapse: separate;
-            border-spacing: 0.2rem;
             width: 100%;
-            background-color: var(--background);
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: white;
         }
         th, td {
-            padding: 0.5rem;
+            border: 1px solid #ddd;
+            padding: 8px;
             text-align: center;
-            font-size: 0.875rem;
-            background-color: var(--card);
-            border-radius: 0.5rem;
-            transition: all 0.3s ease;
         }
         th {
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            color: white;
-            font-weight: 600;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        td:hover {
-            transform: translateY(-0.125rem);
-            box-shadow: 0 0.25rem 0.75rem rgba(0,0,0,0.1);
-        }
-        .weekend {
-            background: linear-gradient(135deg, var(--primary-light), #c4b5fd) !important;
-            color: white;
-        }
-        .week-off {
-            background: linear-gradient(135deg, var(--secondary), #34d399) !important;
-            color: white;
-        }
-        .leave {
-            background: linear-gradient(135deg, var(--accent), #fcd34d) !important;
-            color: white;
+            background-color: #f2f2f2;
         }
         .legend {
-            margin-top: 2rem;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 0.75rem;
+            margin-top: 20px;
+            background-color: white;
+            padding: 10px;
+            border-radius: 5px;
         }
-        .legend-item {
-            padding: 0.5rem 1rem;
-            border-radius: 1.5rem;
-            font-size: 0.75rem;
-            font-weight: 400;
-            color: white;
-            box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
+        .legend h2 {
+            margin-top: 0;
         }
-        .legend-item:hover {
-            transform: translateY(-0.125rem) scale(1.05);
-            box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,0.15);
-        }
-        .employee-name {
-            font-weight: 600;
-            position: sticky;
-            left: 0;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light)) !important;
-            color: white;
-            z-index: 5;
-        }
-        .tooltip {
-            position: relative;
-            display: inline-block;
-            cursor: pointer;
-        }
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 10rem;
-            background-color: rgba(0,0,0,0.8);
-            color: #fff;
-            text-align: center;
-            border-radius: 0.5rem;
-            padding: 0.5rem;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            margin-left: -5rem;
-            opacity: 0;
-            transition: opacity 0.3s, transform 0.3s;
-            transform: translateY(0.5rem);
-            font-size: 0.75rem;
-            box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,0.1);
-        }
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        @media (min-width: 640px) {
-            body {
-                padding: 2rem;
-                font-size: 18px;
-            }
-            h1 {
-                font-size: 2rem;
-            }
-            .schedule-container {
-                padding: 1.5rem;
+        @media (max-width: 600px) {
+            table {
+                font-size: 14px;
             }
             th, td {
-                padding: 0.75rem;
-                font-size: 1rem;
-            }
-            .legend-item {
-                font-size: 0.875rem;
-            }
-        }
-        
-        @media (min-width: 1024px) {
-            .schedule-container {
-                padding: 2rem;
-            }
-            th, td {
-                padding: 1rem;
+                padding: 5px;
             }
         }
     </style>
 </head>
 <body>
-    <h1>Mobile-Friendly Team Shift Schedule - September</h1>
-    <div class="schedule-container" id="schedule"></div>
-    <div class="legend" id="legend"></div>
+    <h1>September Shift Schedule</h1>
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Shift</th>
+            <th>Hours (IST)</th>
+        </tr>
+        <tr><td>1</td><td>2</td><td>06:00 - 15:15</td></tr>
+        <tr><td>2</td><td>2</td><td>06:00 - 15:15</td></tr>
+        <tr><td>3</td><td>2</td><td>06:00 - 15:15</td></tr>
+        <tr><td>4</td><td>2</td><td>06:00 - 15:15</td></tr>
+        <tr><td>5</td><td>2</td><td>06:00 - 15:15</td></tr>
+        <tr><td>6</td><td>W</td><td>Week Off</td></tr>
+        <tr><td>7</td><td>W</td><td>Week Off</td></tr>
+        <tr><td>8</td><td>G</td><td>09:00 - 18:15</td></tr>
+        <tr><td>9</td><td>L</td><td>18:00 - 03:15</td></tr>
+        <tr><td>10</td><td>2</td><td>06:00 - 15:15</td></tr>
+        <tr><td>11</td><td>2</td><td>06:00 - 15:15</td></tr>
+        <tr><td>12</td><td>2</td><td>06:00 - 15:15</td></tr>
+        <tr><td>13</td><td>W</td><td>Week Off</td></tr>
+        <tr><td>14</td><td>W</td><td>Week Off</td></tr>
+        <tr><td>15</td><td>2</td><td>06:00 - 15:15</td></tr>
+        <tr><td>16</td><td>2</td><td>06:00 - 15:15</td></tr>
+        <tr><td>17</td><td>2</td><td>06:00 - 15:15</td></tr>
+        <tr><td>18</td><td>2</td><td>06:00 - 15:15</td></tr>
+        <tr><td>19</td><td>2</td><td>06:00 - 15:15</td></tr>
+        <tr><td>20</td><td>W</td><td>Week Off</td></tr>
+        <tr><td>21</td><td>W</td><td>Week Off</td></tr>
+        <tr><td>22</td><td>3</td><td>22:00 - 07:15</td></tr>
+        <tr><td>23</td><td>3</td><td>22:00 - 07:15</td></tr>
+        <tr><td>24</td><td>3</td><td>22:00 - 07:15</td></tr>
+        <tr><td>25</td><td>L</td><td>18:00 - 03:15</td></tr>
+        <tr><td>26</td><td>L</td><td>18:00 - 03:15</td></tr>
+        <tr><td>27</td><td>W</td><td>Week Off</td></tr>
+        <tr><td>28</td><td>W</td><td>Week Off</td></tr>
+        <tr><td>29</td><td>3</td><td>22:00 - 07:15</td></tr>
+        <tr><td>30</td><td>3</td><td>22:00 - 07:15</td></tr>
+    </table>
 
-    <script>
-        const schedule = [
-            ["ME", "2","2","2","2","2","W","W","G","L","2","2","2","W","W","2","2","2","2","2","W","W","3","3","3","L","L","W","W","3","3"],
-            ["", "2","2","2","2","2","W","W","2","2","2","2","2","W","W","2","2","2","2","2","W","W","2","2","2","2","2","W","W","2","2"],
-            ["", "2","2","2","2","2","W","W","2","2","2","2","2","W","W","3","3","3","3","3","W","W","2","2","2","2","2","W","W","2","2"],
-            ["", "1","1","1","1","1","W","W","1","1","1","1","1","W","W","1","1","1","1","1","W","W","U","U","U","U","U","W","W","1","1"],
-            ["", "1","1","1","1","1","W","W","1","L","L","L","1","W","W","G","1","1","1","1","W","W","1","1","1","1","1","W","W","1","1"],
-            ["", "3","3","3","3","3","W","W","1","1","1","1","1","W","W","1","1","1","1","1","W","W","1","1","1","1","1","W","W","2","2"],
-            ["", "3","3","2","2","2","W","W","2","2","2","2","2","W","W","1","1","1","1","1","W","W","3","3","3","2","2","W","W","2","2"],
-            ["", "W","1","L","1","1","W","W","3","3","3","3","3","W","W","2","1","1","1","1","W","W","G","1","1","1","1","W","W","3","3"],
-            ["", "W","W","2","2","2","2","2","W","W","U","U","U","3","U","W","W","U","U","U","U","U","W","W","U","3","U","W","W","W","W"],
-            ["", "W","W","1","1","1","1","L","W","W","1","1","1","1","3","W","W","U","U","U","3","3","W","W","3","3","3","W","W","1","1"],
-            ["", "W","W","L","1","1","1","1","W","W","1","1","L","G","G","W","W","U","U","U","U","U","W","W","1","1","1","1","1","W","W"],
-            ["", "W","W","1","L","1","1","1","W","W","1","1","L","1","1","W","W","3","3","3","3","3","W","W","2","2","L","2","2","W","W"],
-            ["", "W","W","1","1","1","1","1","W","W","3","3","3","3","3","W","W","1","1","1","1","G","W","W","1","1","1","1","G","W","W"],
-            ["", "W","W","2","2","2","2","2","W","W","1","1","1","1","1","W","W","2","2","2","2","2","W","W","U","U","3","3","3","W","W"],
-            ["", "W","W","3","3","3","3","3","W","W","2","2","2","2","2","W","W","L","1","1","1","1","W","W","1","1","1","1","1","W","W"],
-            ["", "W","W","2","2","2","3","3","W","W","2","2","2","2","2","W","W","2","2","2","2","2","W","W","2","3","3","2","2","W","W"],
-            ["", "1","1","W","W","L","L","L","3","3","W","W","1","1","1","3","3","W","W","1","1","1","1","1","W","W","1","1","1","1","1"],
-            ["", "W","U","U","U","U","U","W","W","U","U","U","U","U","W","W","U","U","U","U","U","W","W","U","U","U","U","U","W","W","U"],
-            ["", "W","1","1","1","1","2","W","W","1","G","G","G","2","W","W","2","2","2","2","2","W","W","2","2","2","2","2","W","W","G"]
-        ];
+    <div class="legend">
+        <h2>Legend</h2>
+        <p><strong>1:</strong> 14:00 - 23:15</p>
+        <p><strong>2:</strong> 06:00 - 15:15</p>
+        <p><strong>3:</strong> 22:00 - 07:15</p>
+        <p><strong>G:</strong> 09:00 - 18:15</p>
+        <p><strong>U:</strong> 18:00 - 03:15</p>
+        <p><strong>W:</strong> Week Off</p>
+        <p><strong>H:</strong> Holiday</p>
+    </div>
 
-        const shiftInfo = {
-            'W': { name: 'Week Off', color: 'linear-gradient(135deg, #10b981, #34d399)', time: 'Off' },
-            'G': { name: 'General', color: 'linear-gradient(135deg, #6366f1, #818cf8)', time: '09:00 - 18:15' },
-            'U': { name: 'US Shift', color: 'linear-gradient(135deg, #8b5cf6, #a78bfa)', time: '18:00 - 03:15' },
-            '1': { name: 'Shift 1', color: 'linear-gradient(135deg, #ef4444, #f87171)', time: '06:00 - 15:15' },
-            '2': { name: 'Shift 2', color: 'linear-gradient(135deg, #f59e0b, #fbbf24)', time: '14:00 - 23:15' },
-            '3': { name: 'Shift 3', color: 'linear-gradient(135deg, #3b82f6, #60a5fa)', time: '22:00 - 07:15' },
-            'L': { name: 'Leave', color: 'linear-gradient(135deg, #ec4899, #f472b6)', time: 'Off' }
-        };
-
-        function createTable() {
-            const table = document.createElement('table');
-            const headerRow = document.createElement('tr');
-            
-            ['Employee', ...Array.from({length: 30}, (_, i) => i + 1)].forEach(day => {
-                const th = document.createElement('th');
-                th.textContent = day;
-                if (day % 7 === 0 || day % 7 === 1) th.classList.add('weekend');
-                headerRow.appendChild(th);
-            });
-            table.appendChild(headerRow);
-
-            schedule.forEach(row => {
-                const tr = document.createElement('tr');
-                row.forEach((cell, index) => {
-                    const td = document.createElement('td');
-                    if (index === 0) {
-                        td.textContent = cell;
-                        td.classList.add('employee-name');
-                    } else {
-                        const span = document.createElement('span');
-                        span.textContent = cell;
-                        span.className = 'tooltip';
-                        const tooltipSpan = document.createElement('span');
-                        tooltipSpan.className = 'tooltiptext';
-                        tooltipSpan.textContent = shiftInfo[cell] ? `${shiftInfo[cell].name}: ${shiftInfo[cell].time}` : '';
-                        span.appendChild(tooltipSpan);
-                        td.appendChild(span);
-
-                        if (shiftInfo[cell]) {
-                            td.style.background = shiftInfo[cell].color;
-                            td.style.color = 'white';
-                        }
-                        if (cell === 'W') td.classList.add('week-off');
-                        if (cell === 'L') td.classList.add('leave');
-                    }
-                    if ((index) % 7 === 0 || (index) % 7 === 1) td.classList.add('weekend');
-                    tr.appendChild(td);
-                });
-                table.appendChild(tr);
-            });
-
-            document.getElementById('schedule').appendChild(table);
-        }
-
-        function createLegend() {
-            const legend = document.getElementById('legend');
-            Object.entries(shiftInfo).forEach(([key, value]) => {
-                const div = document.createElement('div');
-                div.className = 'legend-item';
-                div.style.background = value.color;
-                div.textContent = `${key}: ${value.name}`;
-                legend.appendChild(div);
-            });
-            
-            // Ad
+    <div class="legend">
+        <h2>Additional Information</h2>
+        <p><strong>Location:</strong> India - Pune (17)</p>
+        <p><strong>Korea:</strong> 16,17,18</p>
+        <p><strong>CAN & US:</strong> 2</p>
+    </div>
+</body>
+</html>
