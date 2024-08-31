@@ -1,52 +1,170 @@
-const schedule = [
-    ["Kunal", "2", "2", "2", "*2", "L", "W", "*2", "2", "2", "2", "2", "W", "W", "*2", "*2", "*2", "2", "2", "2", "W", "W", "W", "2", "2", "2", "*2", "2", "2", "W", "W"],
-    ["Sujaya", "3", "3", "3", "*3", "L", "W", "*3", "3", "3", "3", "3", "W", "W", "*3", "*3", "*3", "3", "3", "3", "W", "W", "W", "3", "3", "3", "*3", "3", "3", "W", "W"],
-    // Add similar entries for all employees, highlighting shifts that are bold and underscored in the original Excel.
-];
-
-const days = ["Employee", "1 Sep", "2 Sep", "3 Sep", "4 Sep", "5 Sep", "6 Sep", "7 Sep", "8 Sep", "9 Sep", "10 Sep", "11 Sep", "12 Sep", "13 Sep", "14 Sep", "15 Sep", "16 Sep", "17 Sep", "18 Sep", "19 Sep", "20 Sep", "21 Sep", "22 Sep", "23 Sep", "24 Sep", "25 Sep", "26 Sep", "27 Sep", "28 Sep", "29 Sep", "30 Sep"];
-const legends = [
-    { label: "Weekend", className: "weekend" },
-    { label: "Weekly Off", className: "week-off" },
-    { label: "Leave", className: "leave" }
-];
-
-const createTable = () => {
-    let table = "<table><thead><tr>";
-    for (let day of days) {
-        table += `<th>${day}</th>`;
-    }
-    table += "</tr></thead><tbody>";
-    
-    for (let row of schedule) {
-        table += "<tr>";
-        for (let [index, cell] of row.entries()) {
-            let className = "";
-            let content = cell;
-
-            if (cell === "W") className = "week-off";
-            if (cell === "L") className = "leave";
-            if (cell.startsWith("*")) {
-                content = `<strong><u>${cell.slice(1)}</u></strong>`;
-            }
-            
-            if (index === 0) className = "employee-name"; // Employee names have a sticky position
-            
-            table += `<td class="${className}">${content}</td>`;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shift Schedule - September 2024</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
         }
-        table += "</tr>";
-    }
-    table += "</tbody></table>";
-    document.getElementById("schedule").innerHTML = table;
-};
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+        td.employee-name {
+            position: sticky;
+            left: 0;
+            background-color: #f9f9f9;
+            z-index: 1;
+            text-align: left;
+            font-weight: bold;
+        }
+        .week-off {
+            background-color: #d3d3d3;
+        }
+        .leave {
+            background-color: #ffcccc;
+        }
+        .holiday {
+            background-color: #ffd700;
+        }
+        .legend {
+            display: flex;
+            justify-content: space-around;
+        }
+        .legend-item {
+            padding: 10px;
+            border: 1px solid #000;
+            border-radius: 4px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
 
-const createLegend = () => {
-    let legendHTML = "";
-    for (let legend of legends) {
-        legendHTML += `<div class="legend-item" style="background-color:${document.querySelector(`.${legend.className}`).style.backgroundColor}">${legend.label}</div>`;
-    }
-    document.getElementById("legend").innerHTML = legendHTML;
-};
+<h2>Shift Schedule - September 2024</h2>
 
-createTable();
-createLegend();
+<table>
+    <thead>
+        <tr>
+            <th>NAME</th>
+            <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th>
+            <th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th>
+            <th>15</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th><th>21</th>
+            <th>22</th><th>23</th><th>24</th><th>25</th><th>26</th><th>27</th><th>28</th>
+            <th>29</th><th>30</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="employee-name">Kunal</td>
+            <td>2</td><td>2</td><td>2</td><td><strong><u>2</u></strong></td><td>L</td><td class="week-off">W</td><td><strong><u>2</u></strong></td>
+            <td>2</td><td>2</td><td>2</td><td>2</td><td class="week-off">W</td><td class="week-off">W</td><td><strong><u>2</u></strong></td>
+            <td><strong><u>2</u></strong></td><td><strong><u>2</u></strong></td><td>2</td><td>2</td><td>2</td><td class="week-off">W</td><td class="week-off">W</td>
+            <td>W</td><td>2</td><td>2</td><td>2</td><td><strong><u>2</u></strong></td><td>2</td><td>2</td><td class="week-off">W</td><td class="week-off">W</td>
+        </tr>
+        <tr>
+            <td class="employee-name">Sujaya</td>
+            <td>2</td><td>2</td><td>2</td><td><strong><u>2</u></strong></td><td>L</td><td class="week-off">W</td><td><strong><u>2</u></strong></td>
+            <td>2</td><td>2</td><td>2</td><td>2</td><td class="week-off">W</td><td class="week-off">W</td><td><strong><u>2</u></strong></td>
+            <td><strong><u>2</u></strong></td><td><strong><u>2</u></strong></td><td>2</td><td>2</td><td>2</td><td class="week-off">W</td><td class="week-off">W</td>
+            <td>W</td><td>2</td><td>2</td><td>2</td><td><strong><u>2</u></strong></td><td>2</td><td>2</td><td class="week-off">W</td><td class="week-off">W</td>
+        </tr>
+        <tr>
+            <td class="employee-name">Sruthi</td>
+            <td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td class="week-off">W</td><td>1</td>
+            <td><strong><u>1</u></strong></td><td>1</td><td>1</td><td>1</td><td>1</td><td class="week-off">W</td><td>1</td>
+            <td><strong><u>1</u></strong></td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td>
+            <td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td>
+        </tr>
+        <tr>
+            <td class="employee-name">Reshma</td>
+            <td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td>
+            <td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td class="week-off">W</td><td class="week-off">W</td>
+            <td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td class="week-off">W</td>
+            <td class="week-off">W</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td>
+        </tr>
+        <tr>
+            <td class="employee-name">Srihari</td>
+            <td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td class="week-off">W</td><td>3</td>
+            <td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td class="week-off">W</td><td>3</td>
+            <td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td class="week-off">W</td>
+            <td class="week-off">W</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td>
+        </tr>
+        <tr>
+            <td class="employee-name">Lokesh</td>
+            <td><strong><u>3</u></strong></td><td>3</td><td>3</td><td>3</td><td>3</td><td class="week-off">W</td><td>3</td>
+            <td><strong><u>3</u></strong></td><td>3</td><td>3</td><td>3</td><td class="week-off">W</td><td>3</td>
+            <td><strong><u>3</u></strong></td><td><strong><u>3</u></strong></td><td><strong><u>3</u></strong></td><td>3</td><td>3</td>
+            <td>3</td><td class="week-off">W</td><td class="week-off">W</td><td>W</td><td>3</td><td>3</td><td>3</td>
+            <td><strong><u>3</u></strong></td><td>3</td><td>3</td><td class="week-off">W</td><td class="week-off">W</td>
+        </tr>
+        <tr>
+            <td class="employee-name">Jaswanth</td>
+            <td><strong><u>2</u></strong></td><td>2</td><td>2</td><td>2</td><td>2</td><td class="week-off">W</td><td>2</td>
+            <td><strong><u>2</u></strong></td><td>2</td><td>2</td><td>2</td><td class="week-off">W</td><td>2</td>
+            <td><strong><u>2</u></strong></td><td><strong><u>2</u></strong></td><td><strong><u>2</u></strong></td><td>2</td><td>2</td>
+            <td>2</td><td class="week-off">W</td><td class="week-off">W</td><td>W</td><td>2</td><td>2</td><td>2</td>
+            <td><strong><u>2</u></strong></td><td>2</td><td>2</td><td class="week-off">W</td><td class="week-off">W</td>
+        </tr>
+        <tr>
+            <td class="employee-name">Anusha</td>
+            <td><strong><u>3</u></strong></td><td>3</td><td>3</td><td>3</td><td>3</td><td class="week-off">W</td><td>3</td>
+            <td><strong><u>3</u></strong></td><td>3</td><td>3</td><td>3</td><td class="week-off">W</td><td>3</td>
+            <td><strong><u>3</u></strong></td><td><strong><u>3</u></strong></td><td><strong><u>3</u></strong></td><td>3</td><td>3</td>
+            <td>3</td><td class="week-off">W</td><td class="week-off">W</td><td>W</td><td>3</td><td>3</td><td>3</td>
+            <td><strong><u>3</u></strong></td><td>3</td><td>3</td><td class="week-off">W</td><td class="week-off">W</td>
+        </tr>
+        <tr>
+            <td class="employee-name">Bharath</td>
+            <td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td class="week-off">W</td><td>1</td>
+            <td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td class="week-off">W</td><td>1</td>
+            <td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td class="week-off">W</td>
+            <td class="week-off">W</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td>
+        </tr>
+        <tr>
+            <td class="employee-name">Amarnath</td>
+            <td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td class="week-off">W</td><td>2</td>
+            <td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td class="week-off">W</td><td>2</td>
+            <td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td class="week-off">W</td>
+            <td class="week-off">W</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="legend" id="legend"></div>
+
+<script>
+    const legends = [
+        { label: "Weekend", className: "weekend" },
+        { label: "Weekly Off", className: "week-off" },
+        { label: "Leave", className: "leave" }
+    ];
+
+    const createLegend = () => {
+        let legendHTML = "";
+        for (let legend of legends) {
+            legendHTML += `<div class="legend-item">${legend.label}</div>`;
+        }
+        document.getElementById("legend").innerHTML = legendHTML;
+    };
+
+    createLegend();
+</script>
+
+</body>
+</html>
