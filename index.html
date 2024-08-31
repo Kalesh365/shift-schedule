@@ -1,184 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Color-Coded Team Shift Schedule - September 2024</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-        
-        body {
-            font-family: 'Roboto', sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-            background-color: #f0f4f8;
-            color: #333;
-        }
-        h1 {
-            color: #2c3e50;
-            text-align: center;
-            font-size: 2em;
-            margin-bottom: 20px;
-        }
-        .schedule-container {
-            max-width: 100%;
-            overflow-x: auto;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            padding: 15px;
-        }
-        table {
-            border-collapse: separate;
-            border-spacing: 1px;
-            width: 100%;
-            background-color: #e0e0e0;
-        }
-        th, td {
-            padding: 10px;
-            text-align: center;
-            font-size: 14px;
-            background-color: white;
-        }
-        th {
-            background-color: #4a69bd;
-            color: white;
-            font-weight: bold;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        .weekend {
-            background-color: #fab1a0 !important;
-        }
-        .week-off {
-            background-color: #81ecec !important;
-        }
-        .leave {
-            background-color: #ffeaa7 !important;
-        }
-        .legend {
-            margin-top: 20px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-        }
-        .legend-item {
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: bold;
-            color: #333;
-        }
-        .employee-name {
-            font-weight: bold;
-            position: sticky;
-            left: 0;
-            background-color: #dfe6e9 !important;
-            z-index: 5;
-        }
-        .tooltip {
-            position: relative;
-            display: inline-block;
-            cursor: pointer;
-        }
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 120px;
-            background-color: #34495e;
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 5px;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            margin-left: -60px;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
-        }
-    </style>
-</head>
-<body>
-    <h1>Color-Coded Team Shift Schedule - September 2024</h1>
-    <div class="schedule-container" id="schedule"></div>
-    <div class="legend" id="legend"></div>
+const schedule = [
+    ["Kunal", "2", "2", "2", "*2", "L", "W", "*2", "2", "2", "2", "2", "W", "W", "*2", "*2", "*2", "2", "2", "2", "W", "W", "W", "2", "2", "2", "*2", "2", "2", "W", "W"],
+    ["Sujaya", "3", "3", "3", "*3", "L", "W", "*3", "3", "3", "3", "3", "W", "W", "*3", "*3", "*3", "3", "3", "3", "W", "W", "W", "3", "3", "3", "*3", "3", "3", "W", "W"],
+    // Add similar entries for all employees, highlighting shifts that are bold and underscored in the original Excel.
+];
 
-    <script>
-        const schedule = [
-            ["Kunal", "2","2","2","2","2","W","W","G","L","2","2","2","W","W","2","2","2","2","2","W","W","*3","*3","*3","L","L","W","W","3","3"],
-            ["Sujaya", "2","2","2","2","2","W","W","2","2","2","2","2","W","W","*2","*2","*2","*2","*2","W","W","2","2","2","2","2","W","W","2","2"],
-            ["Sruthi", "2","2","2","2","2","W","W","2","2","2","2","2","W","W","3","3","3","3","3","W","W","2","2","2","2","2","W","W","2","2"],
-            ["Reshma", "1","1","1","1","1","W","W","1","1","1","1","1","W","W","1","1","1","1","1","W","W","*U","*U","*U","*U","*U","W","W","1","1"],
-            ["Srihari", "1","1","1","1","1","W","W","1","L","L","L","1","W","W","G","1","1","1","1","W","W","1","1","1","1","1","W","W","1","1"],
-            ["Lokesh", "3","3","3","3","3","W","W","1","1","1","1","1","W","W","1","1","1","1","1","W","W","*1","*1","*1","*1","*1","W","W","G","1"],
-            ["Harapriya", "3","3","2","2","2","W","W","2","2","2","2","2","W","W","1","1","1","1","1","W","W","3","3","3","2","2","W","W","2","2"],
-            ["Ganesh", "1","1","L","1","1","W","W","3","3","3","3","3","W","W","*2","*1","*1","*1","*1","W","W","G","1","1","1","1","W","W","*3","*3"],
-            ["Arko", "W","W","2","2","2","2","2","W","W","U","U","U","3","U","W","W","U","U","U","U","U","W","W","*U","*3","U","W","W","W","W"],
-            ["Amey", "W","W","1","1","1","1","L","W","W","1","1","1","1","3","W","W","1","1","1","3","3","W","W","*1","*1","1","3","3","W","W"],
-            ["Swapna", "W","W","L","L","1","1","1","W","W","1","1","1","G","G","W","W","U","U","U","U","U","W","W","*1","*1","1","L","1","W","W"],
-            ["Sakshi", "W","W","1","1","1","1","1","W","W","1","1","L","1","1","W","W","3","3","3","3","3","W","W","*2","*2","L","2","2","W","W"],
-            ["Rishav", "W","W","1","1","1","1","1","W","W","3","3","3","3","3","W","W","1","1","1","1","G","W","W","1","1","1","1","G","W","W"],
-            ["Niharika", "W","W","2","2","2","2","2","W","W","1","1","1","1","1","W","W","2","2","2","2","2","W","W","*U","*U","*3","*3","*3","W","W"],
-            ["Venkatesh B", "W","W","3","3","3","3","3","W","W","2","2","2","2","2","W","W","1","1","1","1","1","W","W","1","1","1","1","1","W","W"],
-            ["Vignesh", "W","W","2","2","2","3","3","W","W","2","2","2","2","2","W","W","2","2","2","2","2","W","W","*2","*3","3","2","2","W","W"],
-            ["Koushik", "1","1","W","W","L","L","L","3","3","W","W","3","3","3","W","W","1","1","L","1","1","W","W","*2","*2","2","2","2","W","W"]
-        ];
+const days = ["Employee", "1 Sep", "2 Sep", "3 Sep", "4 Sep", "5 Sep", "6 Sep", "7 Sep", "8 Sep", "9 Sep", "10 Sep", "11 Sep", "12 Sep", "13 Sep", "14 Sep", "15 Sep", "16 Sep", "17 Sep", "18 Sep", "19 Sep", "20 Sep", "21 Sep", "22 Sep", "23 Sep", "24 Sep", "25 Sep", "26 Sep", "27 Sep", "28 Sep", "29 Sep", "30 Sep"];
+const legends = [
+    { label: "Weekend", className: "weekend" },
+    { label: "Weekly Off", className: "week-off" },
+    { label: "Leave", className: "leave" }
+];
 
-        const days = ["Employee", "1 Sep", "2 Sep", "3 Sep", "4 Sep", "5 Sep", "6 Sep", "7 Sep", "8 Sep", "9 Sep", "10 Sep", "11 Sep", "12 Sep", "13 Sep", "14 Sep", "15 Sep", "16 Sep", "17 Sep", "18 Sep", "19 Sep", "20 Sep", "21 Sep", "22 Sep", "23 Sep", "24 Sep", "25 Sep", "26 Sep", "27 Sep", "28 Sep", "29 Sep", "30 Sep"];
-        const legends = [
-            { label: "Weekend", className: "weekend" },
-            { label: "Weekly Off", className: "week-off" },
-            { label: "Leave", className: "leave" }
-        ];
+const createTable = () => {
+    let table = "<table><thead><tr>";
+    for (let day of days) {
+        table += `<th>${day}</th>`;
+    }
+    table += "</tr></thead><tbody>";
+    
+    for (let row of schedule) {
+        table += "<tr>";
+        for (let [index, cell] of row.entries()) {
+            let className = "";
+            let content = cell;
 
-        const createTable = () => {
-            let table = "<table><thead><tr>";
-            for (let day of days) {
-                table += `<th>${day}</th>`;
+            if (cell === "W") className = "week-off";
+            if (cell === "L") className = "leave";
+            if (cell.startsWith("*")) {
+                content = `<strong><u>${cell.slice(1)}</u></strong>`;
             }
-            table += "</tr></thead><tbody>";
             
-            for (let row of schedule) {
-                table += "<tr>";
-                for (let [index, cell] of row.entries()) {
-                    let className = "";
-                    let content = cell;
+            if (index === 0) className = "employee-name"; // Employee names have a sticky position
+            
+            table += `<td class="${className}">${content}</td>`;
+        }
+        table += "</tr>";
+    }
+    table += "</tbody></table>";
+    document.getElementById("schedule").innerHTML = table;
+};
 
-                    if (cell === "W") className = "week-off";
-                    if (cell === "L") className = "leave";
-                    if (cell === "2" || cell === "3" || cell === "1" || cell === "U") className = ""; // Modify based on shift specifics
-                    
-                    if (index === 0) className = "employee-name"; // Employee names have a sticky position
-                    if (cell.startsWith("*")) {
-                        content = `<strong><u>${cell.slice(1)}</u></strong>`;
-                    }
-                    
-                    table += `<td class="${className}">${content}</td>`;
-                }
-                table += "</tr>";
-            }
-            table += "</tbody></table>";
-            document.getElementById("schedule").innerHTML = table;
-        };
+const createLegend = () => {
+    let legendHTML = "";
+    for (let legend of legends) {
+        legendHTML += `<div class="legend-item" style="background-color:${document.querySelector(`.${legend.className}`).style.backgroundColor}">${legend.label}</div>`;
+    }
+    document.getElementById("legend").innerHTML = legendHTML;
+};
 
-        const createLegend = () => {
-            let legendHTML = "";
-            for (let legend of legends) {
-                legendHTML += `<div class="legend-item" style="background-color:${document.querySelector(`.${legend.className}`).style.backgroundColor}">${legend.label}</div>`;
-            }
-            document.getElementById("legend").innerHTML = legendHTML;
-        };
-
-        createTable();
-        createLegend();
-    </script>
-</body>
-</html>
+createTable();
+createLegend();
