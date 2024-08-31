@@ -1,30 +1,214 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>September Shift Schedule</title>
+    <title>Color-Coded Team Shift Schedule - September</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f4f8;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        .schedule-container {
+            max-width: 100%;
+            overflow-x: auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 15px;
+        }
+        table {
+            border-collapse: separate;
+            border-spacing: 1px;
+            width: 100%;
+            background-color: #e0e0e0;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            background-color: white;
+        }
+        th {
+            background-color: #4a69bd;
+            color: white;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .weekend {
+            background-color: #fab1a0 !important;
+        }
+        .week-off {
+            background-color: #81ecec !important;
+        }
+        .leave {
+            background-color: #ffeaa7 !important;
+        }
+        .legend {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+        .legend-item {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #333;
+        }
+        .employee-name {
+            font-weight: bold;
+            position: sticky;
+            left: 0;
+            background-color: #dfe6e9 !important;
+            z-index: 5;
+        }
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: #34495e;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
-    <h1>September Shift Schedule</h1>
-    <table>
-        <tr>
-            <th>Day</th>
-            <th>Shift</th>
-            <th>Hours</th>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>2</td>
-            <td>06:00 - 15:15</td>
-        </tr>
-        <!-- Add more rows for each day of September -->
-    </table>
+    <h1>Color-Coded Team Shift Schedule - September</h1>
+    <div class="schedule-container" id="schedule"></div>
+    <div class="legend" id="legend"></div>
+
+    <script>
+        const schedule = [
+            ["ME", "2","2","2","2","2","W","W","G","L","2","2","2","W","W","2","2","2","2","2","W","W","3","3","3","L","L","W","W","3","3"],
+            ["", "2","2","2","2","2","W","W","2","2","2","2","2","W","W","2","2","2","2","2","W","W","2","2","2","2","2","W","W","2","2"],
+            ["", "2","2","2","2","2","W","W","2","2","2","2","2","W","W","3","3","3","3","3","W","W","2","2","2","2","2","W","W","2","2"],
+            ["", "1","1","1","1","1","W","W","1","1","1","1","1","W","W","1","1","1","1","1","W","W","U","U","U","U","U","W","W","1","1"],
+            ["", "1","1","1","1","1","W","W","1","L","L","L","1","W","W","G","1","1","1","1","W","W","1","1","1","1","1","W","W","1","1"],
+            ["", "3","3","3","3","3","W","W","1","1","1","1","1","W","W","1","1","1","1","1","W","W","1","1","1","1","1","W","W","2","2"],
+            ["", "3","3","2","2","2","W","W","2","2","2","2","2","W","W","1","1","1","1","1","W","W","3","3","3","2","2","W","W","2","2"],
+            ["", "W","1","L","1","1","W","W","3","3","3","3","3","W","W","2","1","1","1","1","W","W","G","1","1","1","1","W","W","3","3"],
+            ["", "W","W","2","2","2","2","2","W","W","U","U","U","3","U","W","W","U","U","U","U","U","W","W","U","3","U","W","W","W","W"],
+            ["", "W","W","1","1","1","1","L","W","W","1","1","1","1","3","W","W","U","U","U","3","3","W","W","3","3","3","W","W","1","1"],
+            ["", "W","W","L","1","1","1","1","W","W","1","1","L","G","G","W","W","U","U","U","U","U","W","W","1","1","1","1","1","W","W"],
+            ["", "W","W","1","L","1","1","1","W","W","1","1","L","1","1","W","W","3","3","3","3","3","W","W","2","2","L","2","2","W","W"],
+            ["", "W","W","1","1","1","1","1","W","W","3","3","3","3","3","W","W","1","1","1","1","G","W","W","1","1","1","1","G","W","W"],
+            ["", "W","W","2","2","2","2","2","W","W","1","1","1","1","1","W","W","2","2","2","2","2","W","W","U","U","3","3","3","W","W"],
+            ["", "W","W","3","3","3","3","3","W","W","2","2","2","2","2","W","W","L","1","1","1","1","W","W","1","1","1","1","1","W","W"],
+            ["", "W","W","2","2","2","3","3","W","W","2","2","2","2","2","W","W","2","2","2","2","2","W","W","2","3","3","2","2","W","W"],
+            ["", "1","1","W","W","L","L","L","3","3","W","W","1","1","1","3","3","W","W","1","1","1","1","1","W","W","1","1","1","1","1"],
+            ["", "W","U","U","U","U","U","W","W","U","U","U","U","U","W","W","U","U","U","U","U","W","W","U","U","U","U","U","W","W","U"],
+            ["", "W","1","1","1","1","2","W","W","1","G","G","G","2","W","W","2","2","2","2","2","W","W","2","2","2","2","2","W","W","G"]
+        ];
+
+        const shiftInfo = {
+            'W': { name: 'Week Off', color: '#81ecec', time: 'Off' },
+            'G': { name: 'General', color: '#white', time: '09:00 - 18:15' },
+            'U': { name: 'US Shift', color: '#white', time: '18:00 - 03:15' },
+            '1': { name: 'Shift 1', color: '#white', time: '06:00 - 15:15' },
+            '2': { name: 'Shift 2', color: '#white', time: '14:00 - 23:15' },
+            '3': { name: 'Shift 3', color: '#white', time: '22:00 - 07:15' },
+            'L': { name: 'Leave', color: '#ffeaa7', time: 'Off' }
+        };
+
+        function createTable() {
+            const table = document.createElement('table');
+            const headerRow = document.createElement('tr');
+            
+            ['Employee', ...Array.from({length: 30}, (_, i) => i + 1)].forEach(day => {
+                const th = document.createElement('th');
+                th.textContent = day;
+                if (day % 7 === 0 || day % 7 === 1) th.classList.add('weekend');
+                headerRow.appendChild(th);
+            });
+            table.appendChild(headerRow);
+
+            schedule.forEach(row => {
+                const tr = document.createElement('tr');
+                row.forEach((cell, index) => {
+                    const td = document.createElement('td');
+                    if (index === 0) {
+                        td.textContent = cell;
+                        td.classList.add('employee-name');
+                    } else {
+                        const span = document.createElement('span');
+                        span.textContent = cell;
+                        span.className = 'tooltip';
+                        const tooltipSpan = document.createElement('span');
+                        tooltipSpan.className = 'tooltiptext';
+                        tooltipSpan.textContent = shiftInfo[cell] ? `${shiftInfo[cell].name}: ${shiftInfo[cell].time}` : '';
+                        span.appendChild(tooltipSpan);
+                        td.appendChild(span);
+
+                        if (shiftInfo[cell]) {
+                            td.style.backgroundColor = shiftInfo[cell].color;
+                        }
+                        if (cell === 'W') td.classList.add('week-off');
+                        if (cell === 'L') td.classList.add('leave');
+                    }
+                    if ((index) % 7 === 0 || (index) % 7 === 1) td.classList.add('weekend');
+                    tr.appendChild(td);
+                });
+                table.appendChild(tr);
+            });
+
+            document.getElementById('schedule').appendChild(table);
+        }
+
+        function createLegend() {
+            const legend = document.getElementById('legend');
+            Object.entries(shiftInfo).forEach(([key, value]) => {
+                const div = document.createElement('div');
+                div.className = 'legend-item';
+                div.style.backgroundColor = value.color;
+                div.textContent = `${key}: ${value.name}`;
+                legend.appendChild(div);
+            });
+            
+            // Add weekend to legend
+            const weekendDiv = document.createElement('div');
+            weekendDiv.className = 'legend-item';
+            weekendDiv.style.backgroundColor = '#fab1a0';
+            weekendDiv.textContent = 'Weekend';
+            legend.appendChild(weekendDiv);
+        }
+
+        createTable();
+        createLegend();
+    </script>
 </body>
 </html>
