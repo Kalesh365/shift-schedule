@@ -1,128 +1,284 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- (Previous head content remains the same) -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shift Schedule - September 2024</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body {
+font-family: 'Roboto', sans-serif;
+line-height: 1.6;
+margin: 0;
+padding: 20px;
+background-color: #f0f4f8;
+color: #333;
+}
+h1 {
+color: #2c3e50;
+text-align: center;
+font-size: 2em;
+margin-bottom: 20px;
+}
+.schedule-container {
+max-width: 100%;
+overflow-x: auto;
+background: white;
+border-radius: 8px;
+box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+padding: 15px;
+}
+table {
+border-collapse: separate;
+border-spacing: 1px;
+width: 100%;
+background-color: #e0e0e0;
+}
+th, td {
+padding: 10px;
+text-align: center;
+font-size: 14px;
+background-color: white;
+}
+th {
+background-color: #4a69bd;
+color: white;
+font-weight: bold;
+position: sticky;
+top: 0;
+z-index: 10;
+}
+.weekend {
+background-color: #fab1a0 !important;
+}
+.week-off {
+background-color: #81ecec !important;
+}
+.leave {
+background-color: #ffeaa7 !important;
+}
+.legend {
+margin-top: 20px;
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+gap: 10px;
+}
+.legend-item {
+padding: 5px 10px;
+border-radius: 4px;
+font-size: 12px;
+font-weight: bold;
+color: #333;
+}
+.employee-name {
+font-weight: bold;
+position: sticky;
+left: 0;
+background-color: #dfe6e9 !important;
+z-index: 5;
+}
+.tooltip {
+position: relative;
+display: inline-block;
+cursor: pointer;
+}
+.tooltip .tooltiptext {
+visibility: hidden;
+width: 120px;
+background-color: #34495e;
+color: #fff;
+text-align: center;
+border-radius: 6px;
+padding: 5px;
+position: absolute;
+z-index: 1;
+bottom: 125%;
+left: 50%;
+margin-left: -60px;
+opacity: 0;
+transition: opacity 0.3s;
+}
+.tooltip:hover .tooltiptext {
+visibility: visible;
+opacity: 1;
+}
+.highlight-green {
+background-color: #90EE90 !important;
+}
+.highlight-bold-underline {
+font-weight: bold;
+text-decoration: underline;
+}
+</style>
 </head>
 <body>
-    <!-- (Previous body content remains the same) -->
+<h1>Shift Schedule - September 2024</h1>
+<div class="schedule-container" id="schedule"></div>
+<div class="legend" id="legend"></div>
 
-    <audio id="alertSound" src="https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3"></audio>
+<script>
+const schedule = [
+["Kunal", "2","2","2","2","2","W","W","G","L","2","2","2","W","W","2","2","2","2","2","W","W","3","3","3","L","L","W","W","3","3"],
+["Sujaya", "2","2","2","2","2","W","W","1","1","1","1","1","W","W","U","U","U","U","U","W","W","U","U","U","U","U","W","W","2","2"],
+["Sruthi", "2","2","2","2","2","W","W","2","2","2","2","2","W","W","3","3","3","3","3","W","W","2","2","2","2","2","W","W","2","2"],
+["Reshma", "1","1","1","1","1","W","W","1","1","1","1","1","W","W","2","2","2","2","2","W","W","2","2","2","2","2","W","W","1","1"],
+["Srihari", "1","1","1","1","1","W","W","1","L","L","L","1","W","W","G","1","1","1","1","W","W","1","1","1","1","1","W","W","1","1"],
+["Lokesh", "3","3","3","3","3","W","W","1","1","1","1","1","W","W","1","1","1","1","1","W","W","1","1","1","1","1","W","W","G","1"],
+["Harapriya", "3","3","2","2","2","W","W","2","2","2","2","2","W","W","1","1","1","1","1","W","W","3","3","3","2","2","W","W","2","2"],
+["Ganesh", "1","1","L","1","1","W","W","3","3","3","3","3","W","W","2","1","1","1","1","W","W","G","1","1","1","1","W","W","3","3"],
+["Arko", "W","W","2","2","2","2","2","W","W","U","U","U","3","U","W","W","U","U","U","U","U","W","W","U","3","U","U","U","W","W"],
+["Amey", "W","W","1","1","1","1","L","W","W","1","1","1","1","3","W","W","1","1","1","3","3","W","W","1","1","1","3","3","W","W"],
+["Swapna", "W","W","L","L","1","1","1","W","W","1","1","1","G","G","W","W","U","U","U","U","U","W","W","1","1","1","L","1","W","W"],
+["Sakshi", "W","W","1","1","1","1","1","1","W","1","1","L","1","1","W","W","3","3","3","3","3","W","W","2","2","L","2","2","W","W"],
+["Rishav", "W","W","1","1","1","1","1","W","W","3","3","3","3","3","W","W","1","1","1","1","G","W","W","1","1","1","1","G","W","W"],
+["Niharika", "W","W","2","2","2","2","2","W","W","1","1","1","1","1","W","W","2","2","2","2","2","W","W","U","U","3","3","3","W","W"],
+["Venkatesh B", "W","W","3","3","3","3","3","W","W","2","2","2","2","2","W","W","1","1","1","1","1","W","W","1","1","1","1","1","W","W"],
+["Vignesh", "W","W","2","2","2","3","3","W","W","2","2","2","2","2","W","W","2","2","2","2","2","W","W","2","3","3","2","2","W","W"],
+["Koushik", "1","L","W","W","L","L","L","3","3","W","W","1","1","1","3","3","W","W","1","1","1","1","1","W","W","1","1","1","1","1"],
+["Anand", "W","U","U","U","U","U","W","W","U","U","U","U","U","W","W","U","U","U","U","U","W","W","U","U","U","U","U","W","W","U"],
+["Kotti", "W","1","1","1","1","2","W","W","2","2","2","2","2","W","W","2","2","2","2","2","W","W","2","2","2","2","2","W","W","2"]
+];
 
-    <script>
-        let timer;
-        let minutes = 5;
-        let seconds = 0;
-        let isRunning = false;
-        let isBreak = false;
-        let remindersInterval;
+const shiftInfo = {
+'W': { name: 'Week Off', color: '#81ecec', time: 'Off' },
+'G': { name: 'General', color: '#white', time: '09:00 - 18:15' },
+'U': { name: 'US Shift', color: '#white', time: '18:00 - 03:15' },
+'1': { name: 'Shift 1', color: '#white', time: '06:00 - 15:15' },
+'2': { name: 'Shift 2', color: '#white', time: '14:00 - 23:15' },
+'3': { name: 'Shift 3', color: '#white', time: '22:00 - 07:15' },
+'L': { name: 'Leave', color: '#ffeaa7', time: 'Off' }
+};
 
-        const timerDisplay = document.getElementById('timer');
-        const statusDisplay = document.getElementById('status');
-        const startPomodoroBtn = document.getElementById('startPomodoro');
-        const startBreakBtn = document.getElementById('startBreak');
-        const resetBtn = document.getElementById('reset');
-        const startRemindersBtn = document.getElementById('startReminders');
-        const alertSound = document.getElementById('alertSound');
+function createTable() {
+const table = document.createElement('table');
+const headerRow = document.createElement('tr');
 
-        function startTimer(duration) {
-            clearInterval(timer);
-            minutes = duration;
-            seconds = 0;
-            isRunning = true;
-            timer = setInterval(updateTimer, 1000);
-            updateTimerDisplay();
-        }
+['Employee', ...Array.from({length: 30}, (_, i) => i + 1)].forEach(day => {
+const th = document.createElement('th');
+th.textContent = day;
+if (day % 7 === 0 || day % 7 === 1) th.classList.add('weekend');
+headerRow.appendChild(th);
+});
+table.appendChild(headerRow);
 
-        function updateTimer() {
-            if (minutes === 0 && seconds === 0) {
-                clearInterval(timer);
-                isRunning = false;
-                if (isBreak) {
-                    statusDisplay.textContent = "Break finished! Start a new Pomodoro.";
-                    sendAlert("Break finished!", "Time to get back to work.");
-                } else {
-                    statusDisplay.textContent = "Pomodoro finished! Take a break.";
-                    sendAlert("Pomodoro finished!", "Time for a break.");
-                }
-                return;
-            }
+schedule.forEach((row, rowIndex) => {
+const tr = document.createElement('tr');
+row.forEach((cell, index) => {
+const td = document.createElement('td');
+if (index === 0) {
+td.textContent = cell;
+td.classList.add('employee-name');
+} else {
+const span = document.createElement('span');
+span.textContent = cell;
+span.className = 'tooltip';
+const tooltipSpan = document.createElement('span');
+tooltipSpan.className = 'tooltiptext';
+tooltipSpan.textContent = shiftInfo[cell] ? `${shiftInfo[cell].name}: ${shiftInfo[cell].time}` : '';
+span.appendChild(tooltipSpan);
+td.appendChild(span);
 
-            if (seconds === 0) {
-                minutes--;
-                seconds = 59;
-            } else {
-                seconds--;
-            }
-            updateTimerDisplay();
-        }
+if (shiftInfo[cell]) {
+td.style.backgroundColor = shiftInfo[cell].color;
+}
+if (cell === 'W') td.classList.add('week-off');
+if (cell === 'L') td.classList.add('leave');
 
-        function updateTimerDisplay() {
-            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        }
+// Highlight specific employee shifts with light green color
+if (
+(rowIndex === 0 && (index === 3 || index === 4)) || // Kunal's September 3rd and 4th
+(rowIndex === 12 && (index === 3 || index === 4)) || // Rishav's September 3rd and 4th
+(rowIndex === 2 && (index === 10 || index === 11)) || // Sruthi's September 10th and 11th
+(rowIndex === 10 && (index === 10 || index === 11)) || // Swapna's September 10th and 11th
+(rowIndex === 0 && (index === 17 || index === 18)) || // Kunal's September 17th and 18th
+(rowIndex === 5 && (index === 17 || index === 18)) || // Lokesh's September 17th and 18th
+(rowIndex === 11 && (index === 24 || index === 25)) || // Sakshi's September 24th and 25th
+(rowIndex === 12 && (index === 24 || index === 25)) // Rishav's September 24th and 25th
+) {
+td.classList.add('highlight-green');
+}
 
-        function resetTimer() {
-            clearInterval(timer);
-            minutes = 5;
-            seconds = 0;
-            isRunning = false;
-            isBreak = false;
-            updateTimerDisplay();
-            statusDisplay.textContent = "Ready to start";
-        }
+// Keep the existing highlight-bold-underline logic
+const highlightDates = {
+1: [0, 3, 6], // Kunal, Reshma, Harapriya
+2: [1, 4, 5], // Sujaya, Srihari, Lokesh
+3: [8, 11, 14], // Arko, Sakshi, Venkatesh B
+4: [5, 9, 13], // Lokesh, Amey, Niharika
+5: [6, 10, 14], // Harapriya, Swapna, Venkatesh B
+6: [15, 12, 18], // Vignesh, Rishav, Kotti
+7: [11, 14, 8], // Sakshi, Venkatesh B, Arko
+8: [1, 3, 7], // Sujaya, Reshma, Ganesh
+9: [2, 5, 17], // Sruthi, Lokesh, Koushik
+10: [7, 9, 14], // Ganesh, Amey, Venkatesh B
+11: [3, 6, 12], // Reshma, Harapriya, Rishav
+12: [0, 4, 7], // Kunal, Srihari, Ganesh
+13: [12, 13, 18], // Rishav, Niharika, Kotti
+14: [9, 11, 14], // Amey, Sakshi, Venkatesh B
+15: [5, 7, 17], // Lokesh, Ganesh, Koushik
+16: [3, 18, 2], // Reshma, Kotti, Sruthi
+17: [13, 4, 11], // Niharika, Srihari, Sakshi
+18: [2, 6, 18], // Sruthi, Harapriya, Kotti
+19: [7, 11, 13], // Ganesh, Sakshi, Niharika
+20: [9, 12, 18], // Amey, Rishav, Kotti
+21: [11, 13, 14], // Sakshi, Niharika, Venkatesh B
+22: [2, 4, 6], // Sruthi, Srihari, Harapriya
+23: [0, 7, 18], // Kunal, Ganesh, Kotti
+24: [3, 6, 10], // Reshma, Harapriya, Swapna
+25: [2, 5, 8], // Sruthi, Lokesh, Arko
+26: [4, 6, 13], // Srihari, Harapriya, Niharika
+27: [9, 12, 18], // Amey, Rishav, Kotti
+28: [10, 11, 13], // Swapna, Sakshi, Niharika
+29: [1, 3, 7], // Harapriya, Reshma, Ganesh
+30: [0, 2, 4] // Kunal, Sruthi, Srihari
+};
 
-        function requestNotificationPermission() {
-            Notification.requestPermission().then(function(result) {
-                if (result === "granted") {
-                    startReminders();
-                }
-            });
-        }
+if (highlightDates[index] && highlightDates[index].includes(rowIndex)) {
+span.classList.add('highlight-bold-underline');
+}
+}
+if ((index) % 7 === 0 || (index) % 7 === 1) td.classList.add('weekend');
+tr.appendChild(td);
+});
+table.appendChild(tr);
+});
 
-        function startReminders() {
-            clearInterval(remindersInterval);
-            remindersInterval = setInterval(() => sendAlert("Time for a Break!", "Stand up, stretch, and look at something 20 feet away."), 39 * 60 * 1000);
-            startRemindersBtn.innerHTML = '<i class="fas fa-bell-slash"></i> Reminders Active';
-        }
+document.getElementById('schedule').appendChild(table);
+}
 
-        function sendAlert(title, body) {
-            // Play sound
-            alertSound.play();
+function createLegend() {
+const legend = document.getElementById('legend');
+Object.entries(shiftInfo).forEach(([key, value]) => {
+const div = document.createElement('div');
+div.className = 'legend-item';
+div.style.backgroundColor = value.color;
+div.textContent = `${key}: ${value.name}`;
+legend.appendChild(div);
+});
 
-            // Send notification
-            if (Notification.permission === "granted") {
-                const notification = new Notification(title, {
-                    body: body,
-                    icon: 'icon.png'
-                });
+// Add weekend to legend
+const weekendDiv = document.createElement('div');
+weekendDiv.className = 'legend-item';
+weekendDiv.style.backgroundColor = '#fab1a0';
+weekendDiv.textContent = 'Weekend';
+legend.appendChild(weekendDiv);
 
-                notification.onclick = function() {
-                    window.focus();
-                    this.close();
-                };
-            }
+// Add new highlight explanations to legend
+const highlightedShifts = document.createElement('div');
+highlightedShifts.className = 'legend-item';
+highlightedShifts.style.backgroundColor = '#90EE90';
+highlightedShifts.textContent = 'GZ Coordinator';
+legend.appendChild(highlightedShifts);
 
-            // Alert in the browser
-            alert(`${title}\n${body}`);
-        }
+const boldUnderlineShifts = document.createElement('div');
+boldUnderlineShifts.className = 'legend-item highlight-bold-underline';
+boldUnderlineShifts.textContent = 'Shift Lead';
+legend.appendChild(boldUnderlineShifts);
+}
 
-        startPomodoroBtn.addEventListener('click', () => {
-            startTimer(5);
-            isBreak = false;
-            statusDisplay.textContent = "Pomodoro in progress";
-        });
-
-        startBreakBtn.addEventListener('click', () => {
-            startTimer(5);
-            isBreak = true;
-            statusDisplay.textContent = "Break in progress";
-        });
-
-        resetBtn.addEventListener('click', resetTimer);
-        startRemindersBtn.addEventListener('click', requestNotificationPermission);
-
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('service-worker.js');
-        }
-    </script>
+createTable();
+createLegend();
+</script>
 </body>
 </html>
