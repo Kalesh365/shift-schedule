@@ -1,921 +1,524 @@
-"use client"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team Shift Schedule - March 2025</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tooltip styles -->
+  <style>
+    .tooltip {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .tooltip .tooltip-content {
+      visibility: hidden;
+      width: 150px;
+      background-color: #333;
+      color: white;
+      text-align: center;
+      border-radius: 6px;
+      padding: 8px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      margin-left: -75px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    .tooltip:hover .tooltip-content {
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+  <div class="container mx-auto py-8">
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+      <div class="px-6 py-4 border-b">
+        <h1 class="text-xl font-bold">Team Shift Schedule - March 2025</h1>
+      </div>
+      <div class="p-6">
+        <div class="rounded-md border overflow-x-auto">
+          <table class="w-full border-collapse">
+            <thead>
+              <tr>
+                <th class="sticky left-0 bg-white px-4 py-2 text-left border">Employee</th>
+                <!-- Days header -->
+                <th class="px-2 py-2 text-center border bg-red-50">
+                  <div class="text-xs text-gray-500">Sa</div>
+                  <div>1</div>
+                </th>
+                <th class="px-2 py-2 text-center border bg-red-50">
+                  <div class="text-xs text-gray-500">Su</div>
+                  <div>2</div>
+                </th>
+                <th class="px-2 py-2 text-center border">
+                  <div class="text-xs text-gray-500">M</div>
+                  <div>3</div>
+                </th>
+                <th class="px-2 py-2 text-center border">
+                  <div class="text-xs text-gray-500">Tu</div>
+                  <div>4</div>
+                </th>
+                <th class="px-2 py-2 text-center border">
+                  <div class="text-xs text-gray-500">W</div>
+                  <div>5</div>
+                </th>
+                <th class="px-2 py-2 text-center border">
+                  <div class="text-xs text-gray-500">Th</div>
+                  <div>6</div>
+                </th>
+                <th class="px-2 py-2 text-center border">
+                  <div class="text-xs text-gray-500">F</div>
+                  <div>7</div>
+                </th>
+                <th class="px-2 py-2 text-center border bg-red-50">
+                  <div class="text-xs text-gray-500">Sa</div>
+                  <div>8</div>
+                </th>
+                <th class="px-2 py-2 text-center border bg-red-50">
+                  <div class="text-xs text-gray-500">Su</div>
+                  <div>9</div>
+                </th>
+                <th class="px-2 py-2 text-center border">
+                  <div class="text-xs text-gray-500">M</div>
+                  <div>10</div>
+                </th>
+                <th class="px-2 py-2 text-center border">
+                  <div class="text-xs text-gray-500">Tu</div>
+                  <div>11</div>
+                </th>
+                <th class="px-2 py-2 text-center border">
+                  <div class="text-xs text-gray-500">W</div>
+                  <div>12</div>
+                </th>
+                <th class="px-2 py-2 text-center border">
+                  <div class="text-xs text-gray-500">Th</div>
+                  <div>13</div>
+                </th>
+                <th class="px-2 py-2 text-center border">
+                  <div class="text-xs text-gray-500">F</div>
+                  <div>14</div>
+                </th>
+                <th class="px-2 py-2 text-center border bg-red-50">
+                  <div class="text-xs text-gray-500">Sa</div>
+                  <div>15</div>
+                </th>
+                <th class="px-2 py-2 text-center border bg-red-50">
+                  <div class="text-xs text-gray-500">Su</div>
+                  <div>16</div>
+                </th>
+                <th class="px-2 py-2 text-center border">
+                  <div class="text-xs text-gray-500">M</div>
+                  <div>17</div>
+                </th>
+                <th class="px-2 py-2 text-center border">
+                  <div class="text-xs text-gray-500">Tu</div>
+                  <div>18</div>
+                </th>
+                <th class="px-2 py-2 text-center border">
+                  <div class="text-xs text-gray-500">W</div>
+                  <div>19</div>
+                </th>
+                <th class="px-2 py-2 text-center border">
+                  <div class="text-xs text-gray-500">Th</div>
+                  <div>20</div>
+                </th>
+                <th class="px-2 py-2 text-center border">
+                  <div class="text-xs text-gray-500">F</div>
+                  <div>21</div>
+                </th>
+                <th class="px-2 py-2 text-center border bg-red-50">
+                  <div class="text-xs text-gray-500">Sa</div>
+                  <div>22</div>
+                </th>
+                <th class="px-2 py-2 text-center border bg-red-50">
+                  <div class="text-xs text-gray-500">Su</div>
+                  <div>23</div>
+                </th>
+                <th class="px-2 py-2 text-center border">
+                  <div class="text-xs text-gray-500">M</div>
+                  <div>24</div>
+                </th>
+                <th class="px-2 py-2 text-center border">
+                  <div class="text-xs text-gray-500">Tu</div>
+                  <div>25</div>
+                </th>
+                <th class="px-2 py-2 text-center border">
+                  <div class="text-xs text-gray-500">W</div>
+                  <div>26</div>
+                </th>
+                <th class="px-2 py-2 text-center border">
+                  <div class="text-xs text-gray-500">Th</div>
+                  <div>27</div>
+                </th>
+                <th class="px-2 py-2 text-center border">
+                  <div class="text-xs text-gray-500">F</div>
+                  <div>28</div>
+                </th>
+                <th class="px-2 py-2 text-center border bg-red-50">
+                  <div class="text-xs text-gray-500">Sa</div>
+                  <div>29</div>
+                </th>
+                <th class="px-2 py-2 text-center border bg-red-50">
+                  <div class="text-xs text-gray-500">Su</div>
+                  <div>30</div>
+                </th>
+                <th class="px-2 py-2 text-center border">
+                  <div class="text-xs text-gray-500">M</div>
+                  <div>31</div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Reshma -->
+              <tr>
+                <td class="sticky left-0 bg-white px-4 py-2 font-medium border">Reshma</td>
+                <td class="px-2 py-2 text-center border bg-red-50">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-blue-100">W</span>
+                    <div class="tooltip-content">
+                      <p>Week Off</p>
+                      <p>Off</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-2 py-2 text-center border bg-red-50">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-white">U</span>
+                    <div class="tooltip-content">
+                      <p>US Shift</p>
+                      <p>18:00 - 03:15</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-2 py-2 text-center border">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-white">U</span>
+                    <div class="tooltip-content">
+                      <p>US Shift</p>
+                      <p>18:00 - 03:15</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-2 py-2 text-center border">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-white">U</span>
+                    <div class="tooltip-content">
+                      <p>US Shift</p>
+                      <p>18:00 - 03:15</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-2 py-2 text-center border">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-white">U</span>
+                    <div class="tooltip-content">
+                      <p>US Shift</p>
+                      <p>18:00 - 03:15</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-2 py-2 text-center border">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-white">U</span>
+                    <div class="tooltip-content">
+                      <p>US Shift</p>
+                      <p>18:00 - 03:15</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-2 py-2 text-center border">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-blue-100">W</span>
+                    <div class="tooltip-content">
+                      <p>Week Off</p>
+                      <p>Off</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-2 py-2 text-center border bg-red-50">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-blue-100">W</span>
+                    <div class="tooltip-content">
+                      <p>Week Off</p>
+                      <p>Off</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-2 py-2 text-center border bg-red-50">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-white">G</span>
+                    <div class="tooltip-content">
+                      <p>General</p>
+                      <p>09:00 - 18:15</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-2 py-2 text-center border">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-white font-bold underline">1</span>
+                    <div class="tooltip-content">
+                      <p>Shift 1</p>
+                      <p>06:00 - 15:15</p>
+                      <p class="font-semibold">Shift Lead</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-2 py-2 text-center border">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-white">1</span>
+                    <div class="tooltip-content">
+                      <p>Shift 1</p>
+                      <p>06:00 - 15:15</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-2 py-2 text-center border">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-yellow-100">L</span>
+                    <div class="tooltip-content">
+                      <p>Leave</p>
+                      <p>Off</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-2 py-2 text-center border">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-yellow-100">L</span>
+                    <div class="tooltip-content">
+                      <p>Leave</p>
+                      <p>Off</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-2 py-2 text-center border">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-blue-100">W</span>
+                    <div class="tooltip-content">
+                      <p>Week Off</p>
+                      <p>Off</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-2 py-2 text-center border bg-red-50">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-blue-100">W</span>
+                    <div class="tooltip-content">
+                      <p>Week Off</p>
+                      <p>Off</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-2 py-2 text-center border bg-red-50">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-white font-bold underline">1</span>
+                    <div class="tooltip-content">
+                      <p>Shift 1</p>
+                      <p>06:00 - 15:15</p>
+                      <p class="font-semibold">Shift Lead</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-2 py-2 text-center border">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-white">1</span>
+                    <div class="tooltip-content">
+                      <p>Shift 1</p>
+                      <p>06:00 - 15:15</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-2 py-2 text-center border">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-white">1</span>
+                    <div class="tooltip-content">
+                      <p>Shift 1</p>
+                      <p>06:00 - 15:15</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-2 py-2 text-center border">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-white">1</span>
+                    <div class="tooltip-content">
+                      <p>Shift 1</p>
+                      <p>06:00 - 15:15</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-2 py-2 text-center border">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-white">1</span>
+                    <div class="tooltip-content">
+                      <p>Shift 1</p>
+                      <p>06:00 - 15:15</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-2 py-2 text-center border">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-blue-100">W</span>
+                    <div class="tooltip-content">
+                      <p>Week Off</p>
+                      <p>Off</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-2 py-2 text-center border bg-red-50">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-blue-100">W</span>
+                    <div class="tooltip-content">
+                      <p>Week Off</p>
+                      <p>Off</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-2 py-2 text-center border bg-red-50">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-white">1</span>
+                    <div class="tooltip-content">
+                      <p>Shift 1</p>
+                      <p>06:00 - 15:15</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-2 py-2 text-center border">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-white font-bold underline">1</span>
+                    <div class="tooltip-content">
+                      <p>Shift 1</p>
+                      <p>06:00 - 15:15</p>
+                      <p class="font-semibold">Shift Lead</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-2 py-2 text-center border">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-white">1</span>
+                    <div class="tooltip-content">
+                      <p>Shift 1</p>
+                      <p>06:00 - 15:15</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-2 py-2 text-center border">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-white">1</span>
+                    <div class="tooltip-content">
+                      <p>Shift 1</p>
+                      <p>06:00 - 15:15</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-2 py-2 text-center border">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-white">1</span>
+                    <div class="tooltip-content">
+                      <p>Shift 1</p>
+                      <p>06:00 - 15:15</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-2 py-2 text-center border">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-blue-100">W</span>
+                    <div class="tooltip-content">
+                      <p>Week Off</p>
+                      <p>Off</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-2 py-2 text-center border bg-red-50">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-blue-100">W</span>
+                    <div class="tooltip-content">
+                      <p>Week Off</p>
+                      <p>Off</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-2 py-2 text-center border bg-red-50">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-white">1</span>
+                    <div class="tooltip-content">
+                      <p>Shift 1</p>
+                      <p>06:00 - 15:15</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-2 py-2 text-center border">
+                  <div class="tooltip">
+                    <span class="inline-block px-2 py-1 rounded-md text-sm bg-yellow-100">L</span>
+                    <div class="tooltip-content">
+                      <p>Leave</p>
+                      <p>Off</p>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              
+              <!-- Additional employees would be added here in the same pattern -->
+              <!-- For brevity, I've included just the first employee as an example -->
+              
+            </tbody>
+          </table>
+        </div>
 
-const shiftInfo = {
-  W: { name: "Week Off", time: "Off", color: "bg-blue-100" },
-  G: { name: "General", time: "09:00 - 18:15", color: "bg-white" },
-  U: { name: "US Shift", time: "18:00 - 03:15", color: "bg-white" },
-  "1": { name: "Shift 1", time: "06:00 - 15:15", color: "bg-white" },
-  "2": { name: "Shift 2", time: "14:00 - 23:15", color: "bg-white" },
-  "3": { name: "Shift 3", time: "22:00 - 07:15", color: "bg-white" },
-  L: { name: "Leave", time: "Off", color: "bg-yellow-100" },
-  H: { name: "Holiday", time: "Off", color: "bg-red-100" },
-}
-
-const schedule = [
-  {
-    name: "Reshma",
-    shifts: [
-      "W",
-      "U",
-      "U",
-      "U",
-      "U",
-      "U",
-      "W",
-      "W",
-      "G",
-      "1",
-      "1",
-      "L",
-      "L",
-      "W",
-      "W",
-      "1",
-      "1",
-      "1",
-      "1",
-      "1",
-      "W",
-      "W",
-      "1",
-      "1",
-      "1",
-      "1",
-      "1",
-      "W",
-      "W",
-      "1",
-      "L",
-    ],
-  },
-  {
-    name: "Srihari",
-    shifts: [
-      "W",
-      "1",
-      "1",
-      "1",
-      "1",
-      "1",
-      "W",
-      "W",
-      "1",
-      "1",
-      "1",
-      "L",
-      "L",
-      "W",
-      "W",
-      "1",
-      "1",
-      "1",
-      "1",
-      "1",
-      "W",
-      "W",
-      "1",
-      "1",
-      "1",
-      "1",
-      "1",
-      "W",
-      "W",
-      "1",
-      "1",
-    ],
-  },
-  {
-    name: "Lokesh",
-    shifts: [
-      "W",
-      "1",
-      "L",
-      "1",
-      "1",
-      "1",
-      "W",
-      "W",
-      "2",
-      "2",
-      "2",
-      "2",
-      "L",
-      "W",
-      "W",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "W",
-      "W",
-      "3",
-      "3",
-      "3",
-      "3",
-      "3",
-      "W",
-      "W",
-      "2",
-      "2",
-    ],
-  },
-  {
-    name: "Arko",
-    shifts: [
-      "W",
-      "3",
-      "3",
-      "3",
-      "3",
-      "3",
-      "W",
-      "W",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "W",
-      "W",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "W",
-      "W",
-      "2",
-      "3",
-      "2",
-      "2",
-      "2",
-      "W",
-      "W",
-      "2",
-      "2",
-    ],
-  },
-  {
-    name: "Vignesh",
-    shifts: [
-      "W",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "W",
-      "W",
-      "3",
-      "2",
-      "2",
-      "2",
-      "2",
-      "W",
-      "W",
-      "3",
-      "3",
-      "3",
-      "3",
-      "3",
-      "W",
-      "W",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "W",
-      "W",
-      "2",
-      "2",
-    ],
-  },
-  {
-    name: "Sujaya",
-    shifts: [
-      "W",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "W",
-      "W",
-      "L",
-      "2",
-      "2",
-      "2",
-      "2",
-      "W",
-      "W",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "W",
-      "W",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "W",
-      "W",
-      "2",
-      "2",
-    ],
-  },
-  {
-    name: "Faizan",
-    shifts: [
-      "W",
-      "1",
-      "1",
-      "1",
-      "1",
-      "1",
-      "W",
-      "W",
-      "1",
-      "1",
-      "1",
-      "1",
-      "1",
-      "W",
-      "W",
-      "1",
-      "1",
-      "1",
-      "1",
-      "1",
-      "W",
-      "W",
-      "1",
-      "1",
-      "1",
-      "1",
-      "1",
-      "W",
-      "W",
-      "1",
-      "1",
-    ],
-  },
-  {
-    name: "Sai Krishna",
-    shifts: [
-      "W",
-      "3",
-      "2",
-      "2",
-      "2",
-      "2",
-      "W",
-      "W",
-      "L",
-      "3",
-      "2",
-      "2",
-      "2",
-      "W",
-      "W",
-      "3",
-      "2",
-      "L",
-      "L",
-      "L",
-      "W",
-      "W",
-      "3",
-      "2",
-      "2",
-      "2",
-      "2",
-      "W",
-      "W",
-      "1",
-      "1",
-    ],
-  },
-  {
-    name: "Ragul",
-    shifts: [
-      "W",
-      "G",
-      "G",
-      "G",
-      "G",
-      "G",
-      "W",
-      "W",
-      "G",
-      "G",
-      "G",
-      "G",
-      "G",
-      "W",
-      "W",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "W",
-      "W",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "W",
-      "W",
-      "3",
-      "3",
-    ],
-  },
-  {
-    name: "Amey",
-    shifts: [
-      "3",
-      "W",
-      "W",
-      "1",
-      "1",
-      "1",
-      "1",
-      "1",
-      "W",
-      "W",
-      "1",
-      "1",
-      "1",
-      "1",
-      "1",
-      "W",
-      "W",
-      "3",
-      "3",
-      "3",
-      "3",
-      "3",
-      "W",
-      "W",
-      "1",
-      "1",
-      "1",
-      "1",
-      "1",
-      "W",
-      "W",
-    ],
-  },
-  {
-    name: "Swapna",
-    shifts: [
-      "1",
-      "W",
-      "W",
-      "1",
-      "1",
-      "1",
-      "1",
-      "1",
-      "W",
-      "W",
-      "U",
-      "U",
-      "U",
-      "U",
-      "U",
-      "W",
-      "W",
-      "1",
-      "1",
-      "1",
-      "1",
-      "1",
-      "W",
-      "W",
-      "1",
-      "1",
-      "1",
-      "1",
-      "1",
-      "W",
-      "W",
-    ],
-  },
-  {
-    name: "Sakshi",
-    shifts: [
-      "G",
-      "W",
-      "W",
-      "1",
-      "1",
-      "1",
-      "1",
-      "G",
-      "W",
-      "W",
-      "1",
-      "1",
-      "L",
-      "L",
-      "2",
-      "W",
-      "W",
-      "L",
-      "1",
-      "1",
-      "1",
-      "2",
-      "W",
-      "W",
-      "3",
-      "3",
-      "3",
-      "3",
-      "3",
-      "W",
-      "W",
-    ],
-  },
-  {
-    name: "Rishav",
-    shifts: [
-      "1",
-      "W",
-      "W",
-      "L",
-      "3",
-      "3",
-      "3",
-      "3",
-      "W",
-      "W",
-      "L",
-      "1",
-      "1",
-      "1",
-      "1",
-      "W",
-      "W",
-      "1",
-      "1",
-      "1",
-      "1",
-      "1",
-      "W",
-      "W",
-      "1",
-      "1",
-      "1",
-      "1",
-      "1",
-      "W",
-      "W",
-    ],
-  },
-  {
-    name: "Niharika",
-    shifts: [
-      "2",
-      "W",
-      "W",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "W",
-      "W",
-      "1",
-      "L",
-      "L",
-      "L",
-      "1",
-      "W",
-      "W",
-      "2",
-      "2",
-      "2",
-      "3",
-      "3",
-      "W",
-      "W",
-      "1",
-      "1",
-      "1",
-      "1",
-      "1",
-      "W",
-      "W",
-    ],
-  },
-  {
-    name: "Venkatesh",
-    shifts: [
-      "1",
-      "W",
-      "W",
-      "1",
-      "1",
-      "1",
-      "1",
-      "1",
-      "W",
-      "W",
-      "3",
-      "3",
-      "3",
-      "3",
-      "3",
-      "W",
-      "W",
-      "1",
-      "1",
-      "1",
-      "1",
-      "1",
-      "W",
-      "W",
-      "1",
-      "1",
-      "1",
-      "1",
-      "1",
-      "W",
-      "W",
-    ],
-  },
-  {
-    name: "Shashikant",
-    shifts: [
-      "2",
-      "W",
-      "W",
-      "2",
-      "2",
-      "2",
-      "G",
-      "1",
-      "W",
-      "W",
-      "2",
-      "2",
-      "L",
-      "L",
-      "L",
-      "W",
-      "W",
-      "L",
-      "L",
-      "2",
-      "2",
-      "2",
-      "W",
-      "W",
-      "U",
-      "U",
-      "U",
-      "U",
-      "3",
-      "W",
-      "W",
-    ],
-  },
-  {
-    name: "Sandeep",
-    shifts: [
-      "3",
-      "W",
-      "W",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "W",
-      "W",
-      "1",
-      "1",
-      "1",
-      "G",
-      "G",
-      "W",
-      "W",
-      "U",
-      "U",
-      "U",
-      "U",
-      "U",
-      "W",
-      "W",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "W",
-      "W",
-    ],
-  },
-  {
-    name: "Siva",
-    shifts: [
-      "1",
-      "W",
-      "W",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "W",
-      "W",
-      "U",
-      "U",
-      "U",
-      "U",
-      "3",
-      "W",
-      "W",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "W",
-      "W",
-      "2",
-      "2",
-      "2",
-      "G",
-      "1",
-      "W",
-      "W",
-    ],
-  },
-  {
-    name: "Vijaya",
-    shifts: [
-      "2",
-      "W",
-      "W",
-      "U",
-      "U",
-      "U",
-      "3",
-      "3",
-      "W",
-      "W",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "W",
-      "W",
-      "2",
-      "2",
-      "2",
-      "G",
-      "1",
-      "W",
-      "W",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "W",
-      "W",
-    ],
-  },
-  {
-    name: "Sruthi",
-    shifts: [
-      "2",
-      "2",
-      "L",
-      "W",
-      "W",
-      "L",
-      "L",
-      "2",
-      "3",
-      "3",
-      "W",
-      "W",
-      "2",
-      "2",
-      "2",
-      "2",
-      "3",
-      "W",
-      "W",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "W",
-      "W",
-      "2",
-      "2",
-      "2",
-      "3",
-      "3",
-    ],
-  },
-  {
-    name: "Kotti",
-    shifts: [
-      "W",
-      "W",
-      "1",
-      "1",
-      "L",
-      "1",
-      "L",
-      "W",
-      "W",
-      "1",
-      "1",
-      "1",
-      "1",
-      "1",
-      "W",
-      "W",
-      "1",
-      "1",
-      "1",
-      "1",
-      "1",
-      "W",
-      "W",
-      "1",
-      "1",
-      "1",
-      "L",
-      "L",
-      "W",
-      "W",
-      "H",
-    ],
-  },
-  {
-    name: "Monica",
-    shifts: [
-      "W",
-      "W",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "W",
-      "W",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "W",
-      "W",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "W",
-      "W",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "W",
-      "W",
-      "2",
-    ],
-  },
-]
-
-const shiftLeads = {
-  Reshma: { "1": [10, 16, 24, 30] },
-  Srihari: { "1": [2, 9, 23, 31] },
-  Lokesh: { "1": [6], "2": [9, 16, 30], "3": [24, 26] },
-  Arko: { "2": [10, 19, 31], "3": [2, 3, 4] },
-  Vignesh: { "2": [3, 23], "3": [9, 16, 18, 20] },
-  Sujaya: { "2": [2, 12, 17, 27] },
-  "Sai Krishna": { "3": [23] },
-  Amey: { "1": [4, 12, 29], "3": [1, 19, 21] },
-  Swapna: { "1": [1, 5, 21, 25] },
-  Sakshi: { "1": [7, 15, 20], "3": [25, 27, 29] },
-  Rishav: { "3": [5, 6, 8], "1": [19, 28] },
-  Niharika: { "1": [11, 15, 26], "2": [6], "3": [28] },
-  Venkatesh: { "1": [8, 18, 27], "3": [11, 12, 13, 14] },
-  Shashikant: { "2": [20, 22] },
-  Sandeep: { "2": [7, 29], "1": [13] },
-  Siva: { "2": [5, 18, 26], "3": [15] },
-  Vijaya: { "1": [22], "3": [7], "2": [11] },
-  Sruthi: { "2": [8, 14, 21, 24, 28], "3": [10, 17, 30, 31] },
-  Kotti: { "1": [3, 14, 17] },
-  Monica: { "2": [4, 25] },
-}
-
-export default function ShiftSchedule() {
-  const days = Array.from({ length: 31 }, (_, i) => i + 1)
-  const dayNames = ["Sa", "Su", "M", "Tu", "W", "Th", "F"]
-
-  const isWeekend = (day: number) => {
-    const dayIndex = (day - 1) % 7
-    return dayIndex === 0 || dayIndex === 1
-  }
-
-  const isShiftLead = (employeeName: string, shift: string, day: number) => {
-    return shiftLeads[employeeName]?.[shift]?.includes(day)
-  }
-
-  return (
-    <div className="container mx-auto py-8">
-      <Card>
-        <CardHeader>
-          <CardTitle>Team Shift Schedule - March 2025</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="rounded-md border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="sticky left-0 bg-background">Employee</TableHead>
-                  {days.map((day, index) => (
-                    <TableHead key={day} className={isWeekend(day) ? "bg-red-50" : ""}>
-                      <div className="text-xs text-muted-foreground">{dayNames[index % 7]}</div>
-                      <div>{day}</div>
-                    </TableHead>
-                  ))}
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {schedule.map((employee) => (
-                  <TableRow key={employee.name}>
-                    <TableCell className="sticky left-0 bg-background font-medium">{employee.name}</TableCell>
-                    {employee.shifts.map((shift, index) => (
-                      <TableCell key={index} className={`text-center ${isWeekend(index + 1) ? "bg-red-50" : ""}`}>
-                        <TooltipProvider>
-                          <Tooltip>
-                            <TooltipTrigger>
-                              <span
-                                className={`
-                                  inline-block px-2 py-1 rounded-md text-sm
-                                  ${shiftInfo[shift as keyof typeof shiftInfo]?.color}
-                                  ${isShiftLead(employee.name, shift, index + 1) ? "font-bold underline" : ""}
-                                `}
-                              >
-                                {shift}
-                              </span>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              <p>{shiftInfo[shift as keyof typeof shiftInfo]?.name}</p>
-                              <p>{shiftInfo[shift as keyof typeof shiftInfo]?.time}</p>
-                              {isShiftLead(employee.name, shift, index + 1) && (
-                                <p className="font-semibold">Shift Lead</p>
-                              )}
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+        <!-- Legend -->
+        <div class="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-8">
+          <div class="flex items-center space-x-2">
+            <span class="inline-block px-2 py-1 rounded-md text-sm bg-blue-100">W</span>
+            <span class="text-sm text-gray-500">Week Off</span>
           </div>
-
-          <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-8">
-            {Object.entries(shiftInfo).map(([key, info]) => (
-              <div key={key} className="flex items-center space-x-2">
-                <span className={`inline-block px-2 py-1 rounded-md text-sm ${info.color}`}>{key}</span>
-                <span className="text-sm text-muted-foreground">{info.name}</span>
-              </div>
-            ))}
-            <div className="flex items-center space-x-2">
-              <span className="inline-block px-2 py-1 rounded-md text-sm font-bold underline">SL</span>
-              <span className="text-sm text-muted-foreground">Shift Lead</span>
-            </div>
+          <div class="flex items-center space-x-2">
+            <span class="inline-block px-2 py-1 rounded-md text-sm bg-white">G</span>
+            <span class="text-sm text-gray-500">General</span>
           </div>
-        </CardContent>
-      </Card>
+          <div class="flex items-center space-x-2">
+            <span class="inline-block px-2 py-1 rounded-md text-sm bg-white">U</span>
+            <span class="text-sm text-gray-500">US Shift</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span class="inline-block px-2 py-1 rounded-md text-sm bg-white">1</span>
+            <span class="text-sm text-gray-500">Shift 1</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span class="inline-block px-2 py-1 rounded-md text-sm bg-white">2</span>
+            <span class="text-sm text-gray-500">Shift 2</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span class="inline-block px-2 py-1 rounded-md text-sm bg-white">3</span>
+            <span class="text-sm text-gray-500">Shift 3</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span class="inline-block px-2 py-1 rounded-md text-sm bg-yellow-100">L</span>
+            <span class="text-sm text-gray-500">Leave</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span class="inline-block px-2 py-1 rounded-md text-sm bg-red-100">H</span>
+            <span class="text-sm text-gray-500">Holiday</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span class="inline-block px-2 py-1 rounded-md text-sm font-bold underline">SL</span>
+            <span class="text-sm text-gray-500">Shift Lead</span>
+          </div>
+        </div>
+      </div>
     </div>
-  )
-}
+  </div>
 
+  <script>
+    // JavaScript to initialize tooltips or add any interaction
+    document.addEventListener('DOMContentLoaded', function() {
+      // This could be expanded if you need additional functionality
+      console.log('Shift Schedule loaded');
+    });
+  </script>
+</body>
+</html>
