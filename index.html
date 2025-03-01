@@ -1,169 +1,921 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Team Shift Schedule - February 2024</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .tooltip {
-            visibility: hidden;
-            position: absolute;
-            z-index: 1;
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 5px;
-            border-radius: 6px;
-            font-size: 12px;
-        }
-    </style>
-</head>
-<body class="min-h-screen bg-white p-4">
-    <div class="max-w-[95rem] mx-auto">
-        <header class="mb-6">
-            <h1 class="text-2xl font-bold text-gray-900">Team Shift Schedule - February 2024</h1>
-            <p class="text-sm text-gray-600">All times are in IST (India Standard Time)</p>
-        </header>
+"use client"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
-        <div class="overflow-x-auto">
-            <table class="min-w-full border border-gray-200">
-                <thead>
-                    <tr class="bg-gray-50">
-                        <th class="border border-gray-200 px-4 py-2 text-left font-semibold text-gray-900 sticky left-0 bg-gray-50 z-10">Employee</th>
-                    </tr>
-                </thead>
-                <tbody id="scheduleBody"></tbody>
-            </table>
-        </div>
+const shiftInfo = {
+  W: { name: "Week Off", time: "Off", color: "bg-blue-100" },
+  G: { name: "General", time: "09:00 - 18:15", color: "bg-white" },
+  U: { name: "US Shift", time: "18:00 - 03:15", color: "bg-white" },
+  "1": { name: "Shift 1", time: "06:00 - 15:15", color: "bg-white" },
+  "2": { name: "Shift 2", time: "14:00 - 23:15", color: "bg-white" },
+  "3": { name: "Shift 3", time: "22:00 - 07:15", color: "bg-white" },
+  L: { name: "Leave", time: "Off", color: "bg-yellow-100" },
+  H: { name: "Holiday", time: "Off", color: "bg-red-100" },
+}
 
-        <div id="legend" class="mt-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4"></div>
+const schedule = [
+  {
+    name: "Reshma",
+    shifts: [
+      "W",
+      "U",
+      "U",
+      "U",
+      "U",
+      "U",
+      "W",
+      "W",
+      "G",
+      "1",
+      "1",
+      "L",
+      "L",
+      "W",
+      "W",
+      "1",
+      "1",
+      "1",
+      "1",
+      "1",
+      "W",
+      "W",
+      "1",
+      "1",
+      "1",
+      "1",
+      "1",
+      "W",
+      "W",
+      "1",
+      "L",
+    ],
+  },
+  {
+    name: "Srihari",
+    shifts: [
+      "W",
+      "1",
+      "1",
+      "1",
+      "1",
+      "1",
+      "W",
+      "W",
+      "1",
+      "1",
+      "1",
+      "L",
+      "L",
+      "W",
+      "W",
+      "1",
+      "1",
+      "1",
+      "1",
+      "1",
+      "W",
+      "W",
+      "1",
+      "1",
+      "1",
+      "1",
+      "1",
+      "W",
+      "W",
+      "1",
+      "1",
+    ],
+  },
+  {
+    name: "Lokesh",
+    shifts: [
+      "W",
+      "1",
+      "L",
+      "1",
+      "1",
+      "1",
+      "W",
+      "W",
+      "2",
+      "2",
+      "2",
+      "2",
+      "L",
+      "W",
+      "W",
+      "2",
+      "2",
+      "2",
+      "2",
+      "2",
+      "W",
+      "W",
+      "3",
+      "3",
+      "3",
+      "3",
+      "3",
+      "W",
+      "W",
+      "2",
+      "2",
+    ],
+  },
+  {
+    name: "Arko",
+    shifts: [
+      "W",
+      "3",
+      "3",
+      "3",
+      "3",
+      "3",
+      "W",
+      "W",
+      "2",
+      "2",
+      "2",
+      "2",
+      "2",
+      "W",
+      "W",
+      "2",
+      "2",
+      "2",
+      "2",
+      "2",
+      "W",
+      "W",
+      "2",
+      "3",
+      "2",
+      "2",
+      "2",
+      "W",
+      "W",
+      "2",
+      "2",
+    ],
+  },
+  {
+    name: "Vignesh",
+    shifts: [
+      "W",
+      "2",
+      "2",
+      "2",
+      "2",
+      "2",
+      "W",
+      "W",
+      "3",
+      "2",
+      "2",
+      "2",
+      "2",
+      "W",
+      "W",
+      "3",
+      "3",
+      "3",
+      "3",
+      "3",
+      "W",
+      "W",
+      "2",
+      "2",
+      "2",
+      "2",
+      "2",
+      "W",
+      "W",
+      "2",
+      "2",
+    ],
+  },
+  {
+    name: "Sujaya",
+    shifts: [
+      "W",
+      "2",
+      "2",
+      "2",
+      "2",
+      "2",
+      "W",
+      "W",
+      "L",
+      "2",
+      "2",
+      "2",
+      "2",
+      "W",
+      "W",
+      "2",
+      "2",
+      "2",
+      "2",
+      "2",
+      "W",
+      "W",
+      "2",
+      "2",
+      "2",
+      "2",
+      "2",
+      "W",
+      "W",
+      "2",
+      "2",
+    ],
+  },
+  {
+    name: "Faizan",
+    shifts: [
+      "W",
+      "1",
+      "1",
+      "1",
+      "1",
+      "1",
+      "W",
+      "W",
+      "1",
+      "1",
+      "1",
+      "1",
+      "1",
+      "W",
+      "W",
+      "1",
+      "1",
+      "1",
+      "1",
+      "1",
+      "W",
+      "W",
+      "1",
+      "1",
+      "1",
+      "1",
+      "1",
+      "W",
+      "W",
+      "1",
+      "1",
+    ],
+  },
+  {
+    name: "Sai Krishna",
+    shifts: [
+      "W",
+      "3",
+      "2",
+      "2",
+      "2",
+      "2",
+      "W",
+      "W",
+      "L",
+      "3",
+      "2",
+      "2",
+      "2",
+      "W",
+      "W",
+      "3",
+      "2",
+      "L",
+      "L",
+      "L",
+      "W",
+      "W",
+      "3",
+      "2",
+      "2",
+      "2",
+      "2",
+      "W",
+      "W",
+      "1",
+      "1",
+    ],
+  },
+  {
+    name: "Ragul",
+    shifts: [
+      "W",
+      "G",
+      "G",
+      "G",
+      "G",
+      "G",
+      "W",
+      "W",
+      "G",
+      "G",
+      "G",
+      "G",
+      "G",
+      "W",
+      "W",
+      "2",
+      "2",
+      "2",
+      "2",
+      "2",
+      "W",
+      "W",
+      "2",
+      "2",
+      "2",
+      "2",
+      "2",
+      "W",
+      "W",
+      "3",
+      "3",
+    ],
+  },
+  {
+    name: "Amey",
+    shifts: [
+      "3",
+      "W",
+      "W",
+      "1",
+      "1",
+      "1",
+      "1",
+      "1",
+      "W",
+      "W",
+      "1",
+      "1",
+      "1",
+      "1",
+      "1",
+      "W",
+      "W",
+      "3",
+      "3",
+      "3",
+      "3",
+      "3",
+      "W",
+      "W",
+      "1",
+      "1",
+      "1",
+      "1",
+      "1",
+      "W",
+      "W",
+    ],
+  },
+  {
+    name: "Swapna",
+    shifts: [
+      "1",
+      "W",
+      "W",
+      "1",
+      "1",
+      "1",
+      "1",
+      "1",
+      "W",
+      "W",
+      "U",
+      "U",
+      "U",
+      "U",
+      "U",
+      "W",
+      "W",
+      "1",
+      "1",
+      "1",
+      "1",
+      "1",
+      "W",
+      "W",
+      "1",
+      "1",
+      "1",
+      "1",
+      "1",
+      "W",
+      "W",
+    ],
+  },
+  {
+    name: "Sakshi",
+    shifts: [
+      "G",
+      "W",
+      "W",
+      "1",
+      "1",
+      "1",
+      "1",
+      "G",
+      "W",
+      "W",
+      "1",
+      "1",
+      "L",
+      "L",
+      "2",
+      "W",
+      "W",
+      "L",
+      "1",
+      "1",
+      "1",
+      "2",
+      "W",
+      "W",
+      "3",
+      "3",
+      "3",
+      "3",
+      "3",
+      "W",
+      "W",
+    ],
+  },
+  {
+    name: "Rishav",
+    shifts: [
+      "1",
+      "W",
+      "W",
+      "L",
+      "3",
+      "3",
+      "3",
+      "3",
+      "W",
+      "W",
+      "L",
+      "1",
+      "1",
+      "1",
+      "1",
+      "W",
+      "W",
+      "1",
+      "1",
+      "1",
+      "1",
+      "1",
+      "W",
+      "W",
+      "1",
+      "1",
+      "1",
+      "1",
+      "1",
+      "W",
+      "W",
+    ],
+  },
+  {
+    name: "Niharika",
+    shifts: [
+      "2",
+      "W",
+      "W",
+      "2",
+      "2",
+      "2",
+      "2",
+      "2",
+      "W",
+      "W",
+      "1",
+      "L",
+      "L",
+      "L",
+      "1",
+      "W",
+      "W",
+      "2",
+      "2",
+      "2",
+      "3",
+      "3",
+      "W",
+      "W",
+      "1",
+      "1",
+      "1",
+      "1",
+      "1",
+      "W",
+      "W",
+    ],
+  },
+  {
+    name: "Venkatesh",
+    shifts: [
+      "1",
+      "W",
+      "W",
+      "1",
+      "1",
+      "1",
+      "1",
+      "1",
+      "W",
+      "W",
+      "3",
+      "3",
+      "3",
+      "3",
+      "3",
+      "W",
+      "W",
+      "1",
+      "1",
+      "1",
+      "1",
+      "1",
+      "W",
+      "W",
+      "1",
+      "1",
+      "1",
+      "1",
+      "1",
+      "W",
+      "W",
+    ],
+  },
+  {
+    name: "Shashikant",
+    shifts: [
+      "2",
+      "W",
+      "W",
+      "2",
+      "2",
+      "2",
+      "G",
+      "1",
+      "W",
+      "W",
+      "2",
+      "2",
+      "L",
+      "L",
+      "L",
+      "W",
+      "W",
+      "L",
+      "L",
+      "2",
+      "2",
+      "2",
+      "W",
+      "W",
+      "U",
+      "U",
+      "U",
+      "U",
+      "3",
+      "W",
+      "W",
+    ],
+  },
+  {
+    name: "Sandeep",
+    shifts: [
+      "3",
+      "W",
+      "W",
+      "2",
+      "2",
+      "2",
+      "2",
+      "2",
+      "W",
+      "W",
+      "1",
+      "1",
+      "1",
+      "G",
+      "G",
+      "W",
+      "W",
+      "U",
+      "U",
+      "U",
+      "U",
+      "U",
+      "W",
+      "W",
+      "2",
+      "2",
+      "2",
+      "2",
+      "2",
+      "W",
+      "W",
+    ],
+  },
+  {
+    name: "Siva",
+    shifts: [
+      "1",
+      "W",
+      "W",
+      "2",
+      "2",
+      "2",
+      "2",
+      "2",
+      "W",
+      "W",
+      "U",
+      "U",
+      "U",
+      "U",
+      "3",
+      "W",
+      "W",
+      "2",
+      "2",
+      "2",
+      "2",
+      "2",
+      "W",
+      "W",
+      "2",
+      "2",
+      "2",
+      "G",
+      "1",
+      "W",
+      "W",
+    ],
+  },
+  {
+    name: "Vijaya",
+    shifts: [
+      "2",
+      "W",
+      "W",
+      "U",
+      "U",
+      "U",
+      "3",
+      "3",
+      "W",
+      "W",
+      "2",
+      "2",
+      "2",
+      "2",
+      "2",
+      "W",
+      "W",
+      "2",
+      "2",
+      "2",
+      "G",
+      "1",
+      "W",
+      "W",
+      "2",
+      "2",
+      "2",
+      "2",
+      "2",
+      "W",
+      "W",
+    ],
+  },
+  {
+    name: "Sruthi",
+    shifts: [
+      "2",
+      "2",
+      "L",
+      "W",
+      "W",
+      "L",
+      "L",
+      "2",
+      "3",
+      "3",
+      "W",
+      "W",
+      "2",
+      "2",
+      "2",
+      "2",
+      "3",
+      "W",
+      "W",
+      "2",
+      "2",
+      "2",
+      "2",
+      "2",
+      "W",
+      "W",
+      "2",
+      "2",
+      "2",
+      "3",
+      "3",
+    ],
+  },
+  {
+    name: "Kotti",
+    shifts: [
+      "W",
+      "W",
+      "1",
+      "1",
+      "L",
+      "1",
+      "L",
+      "W",
+      "W",
+      "1",
+      "1",
+      "1",
+      "1",
+      "1",
+      "W",
+      "W",
+      "1",
+      "1",
+      "1",
+      "1",
+      "1",
+      "W",
+      "W",
+      "1",
+      "1",
+      "1",
+      "L",
+      "L",
+      "W",
+      "W",
+      "H",
+    ],
+  },
+  {
+    name: "Monica",
+    shifts: [
+      "W",
+      "W",
+      "2",
+      "2",
+      "2",
+      "2",
+      "2",
+      "W",
+      "W",
+      "2",
+      "2",
+      "2",
+      "2",
+      "2",
+      "W",
+      "W",
+      "2",
+      "2",
+      "2",
+      "2",
+      "2",
+      "W",
+      "W",
+      "2",
+      "2",
+      "2",
+      "2",
+      "2",
+      "W",
+      "W",
+      "2",
+    ],
+  },
+]
+
+const shiftLeads = {
+  Reshma: { "1": [10, 16, 24, 30] },
+  Srihari: { "1": [2, 9, 23, 31] },
+  Lokesh: { "1": [6], "2": [9, 16, 30], "3": [24, 26] },
+  Arko: { "2": [10, 19, 31], "3": [2, 3, 4] },
+  Vignesh: { "2": [3, 23], "3": [9, 16, 18, 20] },
+  Sujaya: { "2": [2, 12, 17, 27] },
+  "Sai Krishna": { "3": [23] },
+  Amey: { "1": [4, 12, 29], "3": [1, 19, 21] },
+  Swapna: { "1": [1, 5, 21, 25] },
+  Sakshi: { "1": [7, 15, 20], "3": [25, 27, 29] },
+  Rishav: { "3": [5, 6, 8], "1": [19, 28] },
+  Niharika: { "1": [11, 15, 26], "2": [6], "3": [28] },
+  Venkatesh: { "1": [8, 18, 27], "3": [11, 12, 13, 14] },
+  Shashikant: { "2": [20, 22] },
+  Sandeep: { "2": [7, 29], "1": [13] },
+  Siva: { "2": [5, 18, 26], "3": [15] },
+  Vijaya: { "1": [22], "3": [7], "2": [11] },
+  Sruthi: { "2": [8, 14, 21, 24, 28], "3": [10, 17, 30, 31] },
+  Kotti: { "1": [3, 14, 17] },
+  Monica: { "2": [4, 25] },
+}
+
+export default function ShiftSchedule() {
+  const days = Array.from({ length: 31 }, (_, i) => i + 1)
+  const dayNames = ["Sa", "Su", "M", "Tu", "W", "Th", "F"]
+
+  const isWeekend = (day: number) => {
+    const dayIndex = (day - 1) % 7
+    return dayIndex === 0 || dayIndex === 1
+  }
+
+  const isShiftLead = (employeeName: string, shift: string, day: number) => {
+    return shiftLeads[employeeName]?.[shift]?.includes(day)
+  }
+
+  return (
+    <div className="container mx-auto py-8">
+      <Card>
+        <CardHeader>
+          <CardTitle>Team Shift Schedule - March 2025</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="rounded-md border">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="sticky left-0 bg-background">Employee</TableHead>
+                  {days.map((day, index) => (
+                    <TableHead key={day} className={isWeekend(day) ? "bg-red-50" : ""}>
+                      <div className="text-xs text-muted-foreground">{dayNames[index % 7]}</div>
+                      <div>{day}</div>
+                    </TableHead>
+                  ))}
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {schedule.map((employee) => (
+                  <TableRow key={employee.name}>
+                    <TableCell className="sticky left-0 bg-background font-medium">{employee.name}</TableCell>
+                    {employee.shifts.map((shift, index) => (
+                      <TableCell key={index} className={`text-center ${isWeekend(index + 1) ? "bg-red-50" : ""}`}>
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger>
+                              <span
+                                className={`
+                                  inline-block px-2 py-1 rounded-md text-sm
+                                  ${shiftInfo[shift as keyof typeof shiftInfo]?.color}
+                                  ${isShiftLead(employee.name, shift, index + 1) ? "font-bold underline" : ""}
+                                `}
+                              >
+                                {shift}
+                              </span>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>{shiftInfo[shift as keyof typeof shiftInfo]?.name}</p>
+                              <p>{shiftInfo[shift as keyof typeof shiftInfo]?.time}</p>
+                              {isShiftLead(employee.name, shift, index + 1) && (
+                                <p className="font-semibold">Shift Lead</p>
+                              )}
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+
+          <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-8">
+            {Object.entries(shiftInfo).map(([key, info]) => (
+              <div key={key} className="flex items-center space-x-2">
+                <span className={`inline-block px-2 py-1 rounded-md text-sm ${info.color}`}>{key}</span>
+                <span className="text-sm text-muted-foreground">{info.name}</span>
+              </div>
+            ))}
+            <div className="flex items-center space-x-2">
+              <span className="inline-block px-2 py-1 rounded-md text-sm font-bold underline">SL</span>
+              <span className="text-sm text-muted-foreground">Shift Lead</span>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </div>
+  )
+}
 
-    <div id="tooltip" class="tooltip"></div>
-
-    <script>
-        const schedule = [
-            { name: "Reshma", shifts: ["W","1","L","L","1","1","W","W","U","U","U","U","U","W","W","1","1","L","1","1","W","W","1","1","1","1","1","W"] },
-            { name: "Srihari", shifts: ["W","1","1","1","1","1","W","W","1","1","1","1","1","W","W","1","1","1","1","1","W","W","1","1","1","1","1","W"] },
-            { name: "Lokesh", shifts: ["W","1","1","1","1","1","W","W","1","1","1","1","1","W","W","2","2","2","2","2","W","W","3","3","3","3","3","W"] },
-            { name: "Arko", shifts: ["W","3","3","3","3","3","W","W","2","2","2","2","L","W","W","2","2","2","2","L","W","W","2","2","2","2","2","W"] },
-            { name: "Sai Krishna", shifts: ["W","3","3","2","2","2","W","W","3","2","2","1","1","W","W","1","L","1","1","1","W","W","3","3","2","L","L","W"] },
-            { name: "Amey", shifts: ["3","W","W","1","1","1","1","1","W","W","1","1","1","L","L","W","W","1","1","3","3","3","W","W","1","1","1","3"] },
-            { name: "Swapna", shifts: ["1","W","W","U","U","U","U","U","W","W","1","1","1","L","1","W","W","1","L","1","1","1","W","W","1","1","1","L"] },
-            { name: "Sakshi", shifts: ["G","W","W","2","2","2","2","2","W","W","L","L","L","1","G","W","W","3","3","3","3","3","W","W","2","2","2","2"] },
-            { name: "Rishav", shifts: ["1","W","W","1","1","1","1","1","W","W","3","3","3","3","3","W","W","L","L","1","1","1","W","W","1","1","1","1"] },
-            { name: "Niharika", shifts: ["2","W","W","2","2","2","2","2","W","W","1","1","1","1","1","W","W","2","L","2","L","2","W","W","3","3","3","3"] },
-            { name: "Venkatesh B", shifts: ["3","W","W","1","1","1","1","1","W","W","2","2","2","2","2","W","W","2","2","2","G","G","W","W","1","1","1","1"] },
-            { name: "Sujaya", shifts: ["2","L","L","2","W","W","2","G","2","L","L","L","L","L","W","W","L","L","L","L","L","W","W","2","2","2","2","2"] },
-            { name: "Sruthi", shifts: ["L","2","2","W","W","2","3","3","3","3","W","W","2","2","2","2","U","W","W","2","2","2","2","2","W","W","2","2"] },
-            { name: "Kotti", shifts: ["W","W","1","1","1","1","1","W","W","L","2","2","2","G","W","W","1","1","1","1","1","W","W","1","1","1","1","1"] },
-            { name: "Monica", shifts: ["W","W","2","2","2","2","2","W","W","2","L","2","2","U","U","W","W","2","2","2","2","2","W","W","2","2","2","2"] },
-            { name: "Vignesh", shifts: ["W","2","2","2","2","2","W","W","L","L","2","2","2","W","W","3","3","3","3","3","W","W","2","2","2","2","2","W"] },
-            { name: "Faizan", shifts: ["W","2","2","2","L","2","W","W","2","G","2","2","2","W","W","U","U","U","U","U","W","W","2","2","2","2","2","W"] },
-            { name: "Shashikant", shifts: ["1","W","W","2","2","2","2","2","W","W","U","U","U","U","3","W","W","2","2","2","2","3","W","W","2","2","2","2"] },
-            { name: "Sandeep", shifts: ["L","W","W","1","1","1","1","1","W","W","1","1","L","1","L","W","W","1","1","1","1","1","W","W","U","U","U","U"] },
-            { name: "Siva", shifts: ["2","W","W","U","U","U","U","3","W","W","2","2","2","G","1","W","W","2","2","2","2","2","W","W","1","1","1","L"] },
-            { name: "Vijaya", shifts: ["3","W","W","2","2","2","2","2","W","1","W","L","L","2","2","W","W","U","U","U","U","U","W","W","2","2","2","2"] }
-        ];
-
-        const shiftInfo = {
-            'W': { name: 'Week Off', color: 'bg-cyan-200', time: 'Off' },
-            'G': { name: 'General', color: 'bg-white', time: '09:00 - 18:15' },
-            'U': { name: 'US Shift', color: 'bg-white', time: '18:00 - 03:15' },
-            '1': { name: 'Shift 1', color: 'bg-white', time: '06:00 - 15:15' },
-            '2': { name: 'Shift 2', color: 'bg-white', time: '14:00 - 23:15' },
-            '3': { name: 'Shift 3', color: 'bg-white', time: '22:00 - 07:15' },
-            'L': { name: 'Leave', color: 'bg-yellow-200', time: 'Off' },
-            'H': { name: 'Holiday', color: 'bg-red-200', time: 'Off' }
-        };
-
-        function isWeekend(day) {
-            return day % 7 === 0 || day % 7 === 1; // 0-indexed, so 0 and 1 are Saturday and Sunday
-        }
-
-        function createSchedule() {
-            const thead = document.querySelector('thead tr');
-            const tbody = document.getElementById('scheduleBody');
-            const daysInFebruary = 28; // Correct number of days in February 2024
-
-            // Create header
-            for (let i = 1; i <= daysInFebruary; i++) {
-                const th = document.createElement('th');
-                th.className = `border border-gray-200 p-1 text-center font-semibold text-gray-900 min-w-[60px] ${isWeekend(i - 1) ? 'bg-red-200' : ''}`;
-                const dayAbbr = ['Sa', 'Su', 'M', 'Tu', 'W', 'Th', 'F'][(i - 1) % 7];
-                th.innerHTML = `<div class="text-xs text-gray-600 mb-1">${dayAbbr}</div><div class="text-sm">${i}</div>`;
-                thead.appendChild(th);
-            }
-
-            // Create rows
-            schedule.forEach((employee, index) => {
-                const tr = document.createElement('tr');
-                tr.className = index % 2 === 0 ? 'bg-white' : 'bg-gray-50';
-
-                const nameTd = document.createElement('td');
-                nameTd.className = 'border border-gray-200 px-4 py-2 font-medium text-gray-900 sticky left-0 bg-inherit';
-                nameTd.textContent = employee.name;
-                tr.appendChild(nameTd);
-
-                employee.shifts.forEach((shift, idx) => {
-                    const td = document.createElement('td');
-                    td.className = `border border-gray-200 p-1 text-center ${isWeekend(idx) ? 'bg-red-200' : ''}`;
-                    const span = document.createElement('span');
-                    span.className = `inline-block px-2 py-1 rounded-md text-sm font-medium ${shiftInfo[shift]?.color || 'bg-gray-100'}`;
-                    span.textContent = shift;
-                    span.dataset.shift = shift;
-                    td.appendChild(span);
-                    tr.appendChild(td);
-                });
-
-                tbody.appendChild(tr);
-            });
-        }
-
-        function createLegend() {
-            const legend = document.getElementById('legend');
-            Object.entries(shiftInfo).forEach(([shift, info]) => {
-                const div = document.createElement('div');
-                div.className = 'flex items-center space-x-2';
-                div.innerHTML = `
-                    <span class="inline-block px-2 py-1 rounded-md text-sm font-medium ${info.color}">${shift}</span>
-                    <span class="text-sm text-gray-600">${info.name}</span>
-                `;
-                legend.appendChild(div);
-            });
-
-            const weekendDiv = document.createElement('div');
-            weekendDiv.className = 'flex items-center space-x-2';
-            weekendDiv.innerHTML = `
-                <span class="inline-block px-2 py-1 rounded-md text-sm font-medium bg-red-200">Weekend</span>
-            `;
-            legend.appendChild(weekendDiv);
-        }
-
-        function setupTooltip() {
-            const tooltip = document.getElementById('tooltip');
-            document.addEventListener('mouseover', (e) => {
-                if (e.target.dataset.shift) {
-                    const shift = e.target.dataset.shift;
-                    const info = shiftInfo[shift];
-                    tooltip.textContent = `${info.name}: ${info.time}`;
-                    tooltip.style.visibility = 'visible';
-                    tooltip.style.left = `${e.pageX + 10}px`;
-                    tooltip.style.top = `${e.pageY + 10}px`;
-                }
-            });
-
-            document.addEventListener('mouseout', (e) => {
-                if (e.target.dataset.shift) {
-                    tooltip.style.visibility = 'hidden';
-                }
-            });
-        }
-
-        createSchedule();
-        createLegend();
-        setupTooltip();
-    </script>
-</body>
-</html>
