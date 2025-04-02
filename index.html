@@ -3,243 +3,393 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shift Schedule - March 2025</title>
+    <title>April Shift Schedule</title>
     <style>
-        body { font-family: sans-serif; }
-        .container { width: 100%; max-width: 1200px; margin: 20px auto; padding-left: 1rem; padding-right: 1rem;}
-        .card { border-radius: 0.375rem; border-width: 1px; background-color: #fff; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
-        .card-header { padding: 1.25rem; border-bottom: 1px solid #e5e7eb; }
-        .card-title { font-size: 1.5rem; font-weight: bold; }
-        .card-content { padding: 1.25rem; }
-        .table-container { border-radius: 0.375rem; border-width: 1px; overflow-x: auto; }
-        .table { width: 100%; border-collapse: collapse; }
-        .table-header-row th { padding: 0.75rem; font-weight: bold; text-align: center; border-bottom: 2px solid #e5e7eb; background-color: #f9fafb; }
-        .table-header-cell { padding: 0.75rem; text-align: center; }
-        .table-body-row td { padding: 0.75rem; text-align: center; border-bottom: 1px solid #f3f4f6; }
-        .table-cell { padding: 0.75rem; text-align: center; }
-        .sticky-col { position: sticky; left: 0; background-color: #fff; z-index: 1; border-right: 1px solid #e5e7eb; text-align: left !important; font-weight: medium; }
-        .sticky-header { position: sticky; top: 0; z-index: 2; background-color: #f9fafb; }
-        .bg-red-50 { background-color: #fef2f2; }
-        .bg-blue-100 { background-color: #e0f7fa; }
-        .bg-white { background-color: #fff; }
-        .bg-yellow-100 { background-color: #fefce8; }
-        .bg-red-100 { background-color: #fee2e2; }
-        .shift-badge { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 0.375rem; font-size: 0.875rem; }
-        .legend-container { margin-top: 1.5rem; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
-        @media (min-width: 640px) { .legend-container { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-        @media (min-width: 1024px) { .legend-container { grid-template-columns: repeat(8, minmax(0, 1fr)); } }
-        .legend-item { display: flex; align-items: center; space-x-0.5rem; }
-        .legend-badge { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 0.375rem; font-size: 0.875rem; }
-        .muted-foreground { color: #6b7280; }
-        .font-bold { font-weight: bold; }
-        .underline { text-decoration: underline; }
-
+        /* Base styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background-color: #f9fafb;
+            color: #111827;
+            padding: 16px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        /* Search box */
+        .search-container {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7280;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 0.5rem 0.75rem 0.5rem 2rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+        }
+        
+        .clear-button {
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            padding: 0 0.75rem;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+        
+        /* Table styles */
+        .card {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+            overflow: hidden;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            border: 1px solid #e5e7eb;
+            padding: 0.5rem;
+            text-align: center;
+        }
+        
+        th {
+            background-color: #f9fafb;
+            font-weight: 500;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+        
+        td.name-cell {
+            text-align: left;
+            font-weight: 500;
+        }
+        
+        /* Shift styling */
+        .weekend {
+            background-color: #f3f4f6;
+        }
+        
+        .holiday {
+            background-color: #fef3c7;
+        }
+        
+        .greenzone {
+            background-color: #d1fae5;
+        }
+        
+        .lead {
+            font-weight: bold;
+            text-decoration: underline;
+        }
+        
+        .leave {
+            color: #ef4444;
+            font-weight: bold;
+        }
+        
+        /* Legend styles */
+        .legend-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .legend-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .legend-card {
+            padding: 1rem;
+        }
+        
+        .legend-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .legend-list {
+            list-style-type: none;
+        }
+        
+        .legend-list li {
+            margin-bottom: 0.25rem;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .color-box {
+            width: 1rem;
+            height: 1rem;
+            margin-right: 0.5rem;
+        }
+        
+        .footer {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
     </style>
 </head>
 <body>
-
-    <div class="container mx-auto py-8">
+    <div class="container">
+        <h1>April 2025 Shift Schedule</h1>
+        
+        <div class="search-container">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="search-input" class="search-input" placeholder="Search by name...">
+            <button id="clear-button" class="clear-button" style="display: none;">Clear</button>
+        </div>
+        
         <div class="card">
-            <div class="card-header">
-                <h2 class="card-title">Shift Schedule - March 2025</h2>
+            <div class="table-container">
+                <table id="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <!-- Days will be added by JavaScript -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rows will be added by JavaScript -->
+                    </tbody>
+                </table>
             </div>
-            <div class="card-content">
-                <div class="table-container rounded-md border">
-                    <table class="table">
-                        <thead class="table-header">
-                            <tr class="table-header-row">
-                                <th class="table-header-cell sticky-header sticky-col">Employee</th>
-                                <th class="table-header-cell sticky-header bg-red-50"><div class="text-xs muted-foreground">Sa</div><div>1</div></th>
-                                <th class="table-header-cell sticky-header bg-red-50"><div class="text-xs muted-foreground">Su</div><div>2</div></th>
-                                <th class="table-header-cell sticky-header"><div class="text-xs muted-foreground">M</div><div>3</div></th>
-                                <th class="table-header-cell sticky-header"><div class="text-xs muted-foreground">Tu</div><div>4</div></th>
-                                <th class="table-header-cell sticky-header"><div class="text-xs muted-foreground">W</div><div>5</div></th>
-                                <th class="table-header-cell sticky-header"><div class="text-xs muted-foreground">Th</div><div>6</div></th>
-                                <th class="table-header-cell sticky-header"><div class="text-xs muted-foreground">F</div><div>7</div></th>
-                                <th class="table-header-cell sticky-header bg-red-50"><div class="text-xs muted-foreground">Sa</div><div>8</div></th>
-                                <th class="table-header-cell sticky-header bg-red-50"><div class="text-xs muted-foreground">Su</div><div>9</div></th>
-                                <th class="table-header-cell sticky-header"><div class="text-xs muted-foreground">M</div><div>10</div></th>
-                                <th class="table-header-cell sticky-header"><div class="text-xs muted-foreground">Tu</div><div>11</div></th>
-                                <th class="table-header-cell sticky-header"><div class="text-xs muted-foreground">W</div><div>12</div></th>
-                                <th class="table-header-cell sticky-header"><div class="text-xs muted-foreground">Th</div><div>13</div></th>
-                                <th class="table-header-cell sticky-header"><div class="text-xs muted-foreground">F</div><div>14</div></th>
-                                <th class="table-header-cell sticky-header bg-red-50"><div class="text-xs muted-foreground">Sa</div><div>15</div></th>
-                                <th class="table-header-cell sticky-header bg-red-50"><div class="text-xs muted-foreground">Su</div><div>16</div></th>
-                                <th class="table-header-cell sticky-header"><div class="text-xs muted-foreground">M</div><div>17</div></th>
-                                <th class="table-header-cell sticky-header"><div class="text-xs muted-foreground">Tu</div><div>18</div></th>
-                                <th class="table-header-cell sticky-header"><div class="text-xs muted-foreground">W</div><div>19</div></th>
-                                <th class="table-header-cell sticky-header"><div class="text-xs muted-foreground">Th</div><div>20</div></th>
-                                <th class="table-header-cell sticky-header"><div class="text-xs muted-foreground">F</div><div>21</div></th>
-                                <th class="table-header-cell sticky-header bg-red-50"><div class="text-xs muted-foreground">Sa</div><div>22</div></th>
-                                <th class="table-header-cell sticky-header bg-red-50"><div class="text-xs muted-foreground">Su</div><div>23</div></th>
-                                <th class="table-header-cell sticky-header"><div class="text-xs muted-foreground">M</div><div>24</div></th>
-                                <th class="table-header-cell sticky-header"><div class="text-xs muted-foreground">Tu</div><div>25</div></th>
-                                <th class="table-header-cell sticky-header"><div class="text-xs muted-foreground">W</div><div>26</div></th>
-                                <th class="table-header-cell sticky-header"><div class="text-xs muted-foreground">Th</div><div>27</div></th>
-                                <th class="table-header-cell sticky-header"><div class="text-xs muted-foreground">F</div><div>28</div></th>
-                                <th class="table-header-cell sticky-header bg-red-50"><div class="text-xs muted-foreground">Sa</div><div>29</div></th>
-                                <th class="table-header-cell sticky-header bg-red-50"><div class="text-xs muted-foreground">Su</div><div>30</div></th>
-                                <th class="table-header-cell sticky-header"><div class="text-xs muted-foreground">M</div><div>31</div></th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-body">
-                            </tbody>
-                    </table>
-                </div>
-
-                <div class="legend-container mt-6">
-                    <div class="legend-item">
-                        <span class="legend-badge bg-blue-100">W</span>
-                        <span class="text-sm muted-foreground">Week Off</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-badge bg-white">G</span>
-                        <span class="text-sm muted-foreground">General</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-badge bg-white">U</span>
-                        <span class="text-sm muted-foreground">US Shift</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-badge bg-white">1</span>
-                        <span class="text-sm muted-foreground">Shift 1</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-badge bg-white">2</span>
-                        <span class="text-sm muted-foreground">Shift 2</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-badge bg-white">3</span>
-                        <span class="text-sm muted-foreground">Shift 3</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-badge bg-yellow-100">L</span>
-                        <span class="text-sm muted-foreground">Leave</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-badge bg-red-100">H</span>
-                        <span class="text-sm muted-foreground">Holiday</span>
-                    </div>
-                     <div class="legend-item">
-                        <span class="legend-badge font-bold underline">SL</span>
-                        <span class="text-sm muted-foreground">Shift Lead</span>
-                    </div>
-                </div>
+        </div>
+        
+        <div class="legend-container">
+            <div class="card legend-card">
+                <h2 class="legend-title">Shift Legend</h2>
+                <ul class="legend-list">
+                    <li><span style="font-weight: 500;">1:</span> 1st shift (06:00-15:15)</li>
+                    <li><span style="font-weight: 500;">2:</span> 2nd shift (14:00-23:15)</li>
+                    <li><span style="font-weight: 500;">3:</span> Night shift (22:00-next day morning 07:15)</li>
+                    <li><span style="font-weight: 500;">G:</span> General shift (09:00-18:15)</li>
+                    <li><span style="font-weight: 500;">U:</span> US shift (18:00-03:15)</li>
+                    <li><span style="font-weight: 500;">H:</span> Holiday</li>
+                    <li><span style="font-weight: 500;">W:</span> Weekend/Off</li>
+                    <li><span style="font-weight: 500;">L:</span> Leave <span style="color: #ef4444; font-weight: bold;">(in red)</span></li>
+                </ul>
             </div>
+            
+            <div class="card legend-card">
+                <h2 class="legend-title">Special Roles</h2>
+                <ul class="legend-list">
+                    <li class="legend-item">
+                        <div class="color-box" style="background-color: #d1fae5;"></div>
+                        <span>Greenzone Coordinator</span>
+                    </li>
+                    <li class="legend-item">
+                        <div class="color-box" style="display: flex; align-items: center; justify-content: center;">
+                            <span style="font-weight: bold; text-decoration: underline;">A</span>
+                        </div>
+                        <span>Shift Lead</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Last updated: April 2, 2025</p>
         </div>
     </div>
 
     <script>
-        const shiftInfo = {
-            W: { name: "Week Off", time: "Off", color: "bg-blue-100" },
-            G: { name: "General", time: "09:00 - 18:15", color: "bg-white" },
-            U: { name: "US Shift", time: "18:00 - 03:15", color: "bg-white" },
-            "1": { name: "Shift 1", time: "06:00 - 15:15", color: "bg-white" },
-            "2": { name: "Shift 2", time: "14:00 - 23:15", color: "bg-white" },
-            "3": { name: "Shift 3", time: "22:00 - 07:15", color: "bg-white" },
-            L: { name: "Leave", time: "Off", color: "bg-yellow-100" },
-            H: { name: "Holiday", time: "Off", color: "bg-red-100" },
-        };
-
-        const schedule = [
-            { name: "Reshma", shifts: ["W", "U", "U", "U", "U", "U", "W", "W", "G", "1", "1", "1", "1", "W", "W", "1", "1", "1", "L", "L", "W", "W", "1", "1", "1", "1", "1", "W", "W", "1", "L"] },
-            { name: "Srihari", shifts: ["W", "1", "1", "1", "1", "1", "W", "W", "1", "1", "1", "1", "1", "W", "W", "1", "1", "1", "L", "L", "W", "W", "1", "1", "1", "1", "1", "W", "W", "1", "1"] },
-            { name: "Lokesh", shifts: ["W", "1", "L", "1", "1", "1", "W", "W", "3", "3", "2", "2", "L", "W", "W", "1", "1", "L", "1", "1", "W", "W", "3", "3", "2", "2", "2", "W", "W", "2", "2"] },
-            { name: "Arko", shifts: ["W", "3", "3", "3", "3", "3", "W", "W", "2", "2", "2", "2", "2", "W", "W", "2", "2", "2", "2", "2", "W", "W", "2", "3", "2", "2", "2", "W", "W", "2", "2"] },
-            { name: "Vignesh", shifts: ["W", "2", "2", "2", "2", "2", "W", "W", "2", "2", "2", "2", "2", "W", "W", "3", "3", "3", "3", "3", "W", "W", "2", "2", "2", "2", "2", "W", "W", "2", "2"] },
-            { name: "Sujaya", shifts: ["W", "2", "2", "2", "2", "2", "W", "W", "L", "2", "2", "2", "2", "W", "W", "2", "2", "2", "2", "2", "W", "W", "2", "2", "2", "2", "2", "W", "W", "2", "2"] },
-            { name: "Faizan", shifts: ["W", "1", "1", "1", "1", "1", "W", "W", "1", "1", "1", "1", "1", "W", "W", "1", "1", "1", "1", "1", "W", "W", "1", "1", "1", "1", "1", "W", "W", "1", "1"] },
-            { name: "Sai Krishna", shifts: ["W", "3", "2", "2", "2", "2", "W", "W", "1", "1", "1", "1", "1", "W", "W", "3", "2", "L", "L", "L", "W", "W", "3", "2", "2", "2", "2", "W", "W", "1", "1"] },
-            { name: "Ragul", shifts: ["W", "G", "G", "G", "G", "G", "W", "W", "G", "G", "G", "G", "G", "W", "W", "2", "2", "2", "2", "2", "W", "W", "G", "2", "2", "2", "2", "W", "W", "3", "3"] },
-            { name: "Krishna J", shifts: ["", "", "", "", "", "", "", "", "", "", "2", "1", "1", "W", "W", "1", "1", "1", "1", "1", "W", "W", "2", "2", "2", "2", "2", "W", "W", "2", "2"] },
-            { name: "Amey", shifts: ["3", "W", "W", "1", "1", "1", "1", "1", "W", "W", "1", "1", "1", "1", "1", "W", "W", "3", "3", "3", "3", "3", "W", "W", "1", "1", "1", "1", "1", "W", "W"] },
-            { name: "Swapna", shifts: ["1", "W", "W", "1", "1", "1", "1", "1", "W", "W", "U", "U", "U", "U", "U", "W", "W", "1", "L", "L", "L", "1", "W", "W", "1", "1", "1", "1", "1", "W", "W"] },
-            { name: "Sakshi", shifts: ["G", "W", "W", "1", "1", "1", "1", "G", "W", "W", "1", "1", "L", "L", "1", "W", "W", "L", "1", "1", "1", "G", "W", "W", "3", "3", "3", "3", "3", "W", "W"] },
-            { name: "Rishav", shifts: ["1", "W", "W", "L", "3", "3", "3", "3", "W", "W", "L", "1", "1", "1", "1", "W", "W", "1", "1", "1", "1", "1", "W", "W", "1", "1", "1", "1", "1", "W", "W"] },
-            { name: "Niharika", shifts: ["2", "W", "W", "2", "2", "2", "2", "2", "W", "W", "2", "2", "2", "2", "2", "W", "W", "2", "2", "2", "L", "2", "W", "W", "3", "3", "3", "3", "3", "W", "W"] },
-            { name: "Venkatesh", shifts: ["1", "W", "W", "1", "1", "1", "1", "1", "W", "W", "3", "3", "3", "3", "3", "W", "W", "L", "L", "L", "L", "1", "W", "W", "1", "1", "1", "1", "1", "W", "W"] },
-            { name: "Shashikant", shifts: ["2", "W", "W", "2", "2", "2", "G", "1", "W", "W", "2", "2", "L", "L", "L", "W", "W", "L", "L", "2", "2", "2", "W", "W", "U", "U", "U", "U", "U", "W", "W"] },
-            { name: "Sandeep", shifts: ["3", "W", "W", "2", "2", "2", "2", "2", "W", "W", "1", "1", "1", "G", "G", "W", "W", "U", "U", "U", "U", "3", "W", "W", "2", "2", "2", "2", "2", "W", "W"] },
-            { name: "Siva", shifts: ["1", "W", "W", "2", "2", "2", "2", "2", "W", "W", "U", "U", "U", "U", "3", "W", "W", "2", "2", "L", "2", "2", "W", "W", "2", "2", "2", "G", "1", "W", "W"] },
-            { name: "Vijaya", shifts: ["2", "W", "W", "U", "U", "U", "3", "3", "W", "W", "2", "2", "2", "2", "2", "W", "W", "2", "2", "2", "G", "1", "W", "W", "2", "2", "2", "2", "2", "W", "W"] },
-            { name: "Sruthi", shifts: ["2", "2", "2", "W", "W", "L", "L", "2", "3", "3", "W", "W", "2", "L", "2", "L", "3", "W", "W", "2", "2", "2", "2", "2", "W", "W", "2", "2", "2", "3", "3"] },
-            { name: "Kotti", shifts: ["W", "W", "1", "1", "L", "1", "L", "W", "W", "1", "1", "1", "1", "1", "W", "W", "1", "1", "1", "L", "1", "W", "W", "1", "1", "1", "L", "L", "W", "W", "H"] },
-            { name: "Monica", shifts: ["W", "W", "2", "2", "2", "2", "2", "W", "W", "2", "2", "2", "2", "L", "W", "W", "2", "2", "2", "2", "2", "W", "W", "2", "2", "2", "2", "2", "W", "W", "2"] },
-        ];
-
-        const shiftLeads = {
-            Reshma: { "1": [10, 16, 24, 30] },
-            Srihari: { "1": [2, 9, 23, 31] },
-            Lokesh: { "1": [6], "2": [30], "3": [9, 24] },
-            Arko: { "2": [10, 19, 31], "3": [2, 3, 4] },
-            Vignesh: { "2": [3, 9, 13, 23], "3": [16, 18, 20] },
-            Sujaya: { "2": [2, 12, 16, 17, 25, 27] },
-            "Sai Krishna": { "3": [23] },
-            Amey: { "1": [4, 12, 26, 29], "3": [1, 19, 21] },
-            Swapna: { "1": [1, 5] },
-            Sakshi: { "1": [7, 15, 20], "3": [25, 27, 29] },
-            Rishav: { "3": [5, 6, 8], "1": [19, 25, 28] },
-            Niharika: { "2": [6, 15], "3": [26, 28] },
-            Venkatesh: { "1": [8, 18, 27], "3": [11, 12, 13, 14] },
-            Shashikant: { "2": [1, 4, 20, 22] },
-            Sandeep: { "2": [7, 29], "1": [13], "3": [22] },
-            Siva: { "2": [5, 18, 26], "3": [15] },
-            Vijaya: { "1": [22], "3": [7], "2": [11] },
-            Sruthi: { "2": [8, 14, 21, 24, 28], "3": [10, 17, 30, 31] },
-            Kotti: { "1": [3, 14, 17, 21] },
-        };
-
-        const days = Array.from({ length: 31 }, (_, i) => i + 1);
-        const dayNames = ["Sa", "Su", "M", "Tu", "W", "Th", "F"];
-        const tableBody = document.querySelector('.table-body');
-
-        const isWeekend = (day) => {
-            const dayIndex = (day - 1) % 7;
-            return dayIndex === 0 || dayIndex === 1;
-        };
-
-        const isShiftLead = (employeeName, shift, day) => {
-            return shiftLeads[employeeName]?.[shift]?.includes(day);
-        };
-
-        schedule.forEach(employee => {
-            const row = document.createElement('tr');
-            row.classList.add('table-body-row');
-
-            const employeeCell = document.createElement('td');
-            employeeCell.classList.add('table-cell', 'sticky-col');
-            employeeCell.textContent = employee.name;
-            row.appendChild(employeeCell);
-
-            employee.shifts.forEach((shift, index) => {
-                const day = index + 1;
-                const shiftCell = document.createElement('td');
-                shiftCell.classList.add('table-cell');
-                if (isWeekend(day)) {
-                    shiftCell.classList.add('bg-red-50');
+        document.addEventListener('DOMContentLoaded', function() {
+            // Schedule data
+            const scheduleData = [
+                { name: "Reshma", shifts: ["1", "1", "L", "W", "W", "U", "L", "U", "U", "U", "W", "W", "2", "L", "2", "2", "L", "W", "W", "2", "L", "2", "2", "2", "W", "W", "1", "L", "1", "1"], isGreenzone: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false], isLead: [true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false] },
+                { name: "Srihari", shifts: ["1", "1", "1", "W", "W", "1", "1", "1", "1", "1", "W", "W", "1", "1", "1", "1", "1", "W", "W", "1", "1", "1", "1", "1", "W", "W", "1", "1", "1", "1"], isGreenzone: [false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false], isLead: [false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false] },
+                { name: "Lokesh", shifts: ["L", "1", "1", "W", "W", "3", "3", "2", "2", "2", "W", "W", "1", "1", "1", "1", "1", "W", "W", "3", "3", "2", "2", "2", "W", "W", "1", "1", "1", "1"], isGreenzone: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false], isLead: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false] },
+                { name: "Arko", shifts: ["2", "2", "2", "W", "W", "L", "L", "L", "L", "L", "W", "W", "2", "2", "2", "2", "2", "W", "W", "2", "2", "2", "2", "3", "W", "W", "3", "3", "3", "3"], isGreenzone: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false], isLead: [false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false] },
+                { name: "Vignesh", shifts: ["2", "2", "2", "W", "W", "2", "2", "2", "2", "2", "W", "W", "3", "3", "3", "3", "3", "W", "W", "2", "2", "L", "L", "L", "W", "W", "2", "2", "2", "2"], isGreenzone: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false], isLead: [false, false, true, false, false, false, false, false, true, false, false, false, false, false, true, false, true, false, false, false, false, false, false, false, false, false, false, false, true, false] },
+                { name: "Sujaya", shifts: ["2", "2", "2", "W", "W", "2", "2", "2", "2", "2", "W", "W", "2", "2", "2", "2", "2", "W", "W", "2", "2", "2", "2", "L", "W", "W", "2", "2", "2", "2"], isGreenzone: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false], isLead: [false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false] },
+                { name: "Faizan", shifts: ["L", "L", "2", "W", "W", "2", "2", "2", "2", "2", "W", "W", "3", "3", "U", "U", "U", "W", "W", "1", "1", "1", "1", "1", "W", "W", "2", "2", "2", "2"], isGreenzone: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false], isLead: [false, false, false, false, false, false, true, false, false, false, false, false, false, true, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false] },
+                { name: "Ragul", shifts: ["3", "3", "3", "W", "W", "1", "1", "1", "1", "1", "W", "W", "1", "1", "1", "1", "1", "W", "W", "1", "1", "1", "1", "1", "W", "W", "3", "3", "3", "3"], isGreenzone: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false], isLead: [false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true] },
+                { name: "Sruthi", shifts: ["W", "2", "2", "2", "W", "1", "1", "1", "1", "1", "W", "W", "2", "2", "2", "2", "2", "W", "W", "3", "3", "3", "3", "3", "W", "W", "2", "2", "2", "2"], isGreenzone: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false], isLead: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, true, false, false, false, false, false, false] },
+                { name: "Amey", shifts: ["1", "1", "1", "1", "1", "W", "W", "1", "1", "1", "1", "1", "W", "W", "1", "1", "1", "3", "3", "W", "W", "3", "L", "L", "3", "3", "W", "W", "1", "1"], isGreenzone: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false], isLead: [false, true, false, false, true, false, false, false, false, false, true, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false] },
+                { name: "Swapna", shifts: ["1", "1", "1", "1", "1", "W", "W", "1", "1", "1", "1", "1", "W", "W", "1", "1", "1", "1", "1", "W", "W", "U", "U", "U", "U", "U", "W", "W", "1", "1"], isGreenzone: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false], isLead: [false, false, false, true, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false] },
+                { name: "Sakshi", shifts: ["2", "2", "2", "2", "2", "W", "W", "3", "3", "3", "3", "3", "W", "W", "1", "L", "1", "1", "1", "W", "W", "1", "1", "1", "L", "1", "W", "W", "2", "2"], isGreenzone: [true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false], isLead: [false, false, false, false, false, false, false, false, false, true, false, true, false, false, false, false, true, false, false, false, false, false, false, false, false, true, false, false, false, false] },
+                { name: "Rishav", shifts: ["3", "3", "3", "3", "3", "W", "W", "1", "1", "1", "1", "G", "W", "W", "1", "1", "1", "1", "1", "W", "W", "1", "1", "1", "1", "2", "W", "W", "1", "1"], isGreenzone: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false], isLead: [true, true, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false] },
+                { name: "Niharika", shifts: ["2", "2", "2", "2", "2", "W", "W", "2", "2", "2", "2", "2", "W", "W", "3", "3", "3", "3", "3", "W", "W", "1", "1", "L", "1", "G", "W", "W", "2", "2"], isGreenzone: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false], isLead: [false, false, false, true, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false] },
+                { name: "Venkatesh B", shifts: ["1", "1", "1", "1", "1", "W", "W", "3", "3", "3", "3", "3", "W", "W", "L", "L", "2", "2", "2", "W", "W", "L", "L", "1", "1", "1", "W", "W", "1", "1"], isGreenzone: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false], isLead: [false, false, false, false, true, false, false, false, true, false, true, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false] },
+                { name: "Shashikant", shifts: ["2", "2", "2", "2", "2", "W", "W", "1", "1", "1", "1", "1", "W", "W", "2", "2", "2", "2", "2", "W", "W", "U", "U", "U", "3", "3", "W", "W", "2", "2"], isGreenzone: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false], isLead: [false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false] },
+                { name: "Sandeep", shifts: ["U", "U", "U", "3", "3", "W", "W", "2", "2", "2", "2", "2", "W", "W", "2", "2", "2", "L", "L", "W", "W", "L", "L", "L", "L", "L", "W", "W", "1", "1"], isGreenzone: [false, false, false, false, false, false, false, true, false, true, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false], isLead: [false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false] },
+                { name: "Siva", shifts: ["1", "1", "1", "W", "1", "W", "W", "2", "2", "2", "2", "2", "W", "W", "U", "U", "U", "U", "U", "W", "W", "2", "2", "2", "G", "1", "W", "W", "2", "2"], isGreenzone: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false], isLead: [false, false, true, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false] },
+                { name: "Vijaya", shifts: ["2", "2", "2", "2", "2", "W", "W", "U", "U", "U", "U", "U", "W", "W", "2", "G", "2", "2", "2", "W", "W", "2", "2", "2", "2", "2", "W", "W", "U", "U"], isGreenzone: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false], isLead: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false] },
+                { name: "Krishna J", shifts: ["L", "1", "1", "W", "W", "3", "3", "U", "U", "U", "W", "1", "W", "1", "1", "1", "1", "1", "L", "W", "W", "G", "2", "L", "L", "2", "W", "W", "1", "1"], isGreenzone: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false], isLead: [false, false, false, false, false, false, true, false, false, false, false, false, false, true, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false] },
+                { name: "Pravallika", shifts: ["G", "G", "G", "G", "W", "W", "G", "G", "G", "G", "G", "W", "W", "G", "G", "G", "G", "G", "W", "W", "G", "G", "G", "G", "G", "W", "W", "G", "G", "G"], isGreenzone: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false], isLead: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false] },
+                { name: "Kotti", shifts: ["1", "1", "1", "1", "W", "W", "1", "1", "1", "1", "G", "W", "W", "1", "1", "G", "G", "G", "W", "W", "1", "1", "1", "1", "2", "W", "W", "1", "1", "1"], isGreenzone: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false], isLead: [false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false] },
+                { name: "Monica", shifts: ["2", "2", "2", "2", "W", "W", "2", "2", "2", "2", "2", "W", "W", "2", "2", "2", "2", "2", "W", "W", "2", "2", "2", "2", "2", "W", "W", "2", "2", "L"], isGreenzone: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false], isLead: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false] },
+            ];
+            
+            // Generate dates for April
+            const dates = Array.from({ length: 30 }, (_, i) => i + 1);
+            
+            // Function to get day of week for a given date in April 2025
+            function getDayOfWeek(date) {
+                const days = ['Tu', 'W', 'Th', 'F', 'Sa', 'Su', 'M'];
+                // April 1, 2025 is a Tuesday (index 0)
+                return days[(date - 1) % 7];
+            }
+            
+            // Function to get shift name
+            function getShiftName(code) {
+                switch(code) {
+                    case "1": return "1st shift (06:00-15:15)";
+                    case "2": return "2nd shift (14:00-23:15)";
+                    case "3": return "Night shift (22:00-07:15)";
+                    case "G": return "General shift (09:00-18:15)";
+                    case "U": return "US shift (18:00-03:15)";
+                    case "H": return "Holiday";
+                    case "W": return "Weekend/Off";
+                    case "L": return "Leave";
+                    default: return code;
                 }
-
-                const shiftBadge = document.createElement('span');
-                shiftBadge.classList.add('shift-badge');
-                const shiftInfoData = shiftInfo[shift];
-                if (shiftInfoData) {
-                    shiftBadge.classList.add(shiftInfoData.color);
-                    shiftBadge.textContent = shift;
-                    shiftCell.title = `${shiftInfoData.name}\n${shiftInfoData.time}${isShiftLead(employee.name, shift, day) ? '\nShift Lead' : ''}`;
-                } else {
-                    shiftBadge.textContent = shift; // fallback in case of unexpected shift value
-                }
-
-                if (isShiftLead(employee.name, shift, day)) {
-                    shiftBadge.classList.add('font-bold', 'underline');
-                }
-
-                shiftCell.appendChild(shiftBadge);
-                row.appendChild(shiftCell);
+            }
+            
+            // Add dates to header
+            const headerRow = document.querySelector('#schedule-table thead tr');
+            dates.forEach(date => {
+                const th = document.createElement('th');
+                const dayDiv = document.createElement('div');
+                dayDiv.textContent = getDayOfWeek(date);
+                const dateDiv = document.createElement('div');
+                dateDiv.textContent = date;
+                th.appendChild(dayDiv);
+                th.appendChild(dateDiv);
+                headerRow.appendChild(th);
             });
-            tableBody.appendChild(row);
+            
+            // Add rows for each person
+            const tableBody = document.querySelector('#schedule-table tbody');
+            
+            function renderTable(data) {
+                // Clear existing rows
+                tableBody.innerHTML = '';
+                
+                // Add new rows
+                data.forEach((person, index) => {
+                    const row = document.createElement('tr');
+                    row.className = index % 2 === 0 ? '' : 'bg-gray-50';
+                    
+                    // Add name cell
+                    const nameCell = document.createElement('td');
+                    nameCell.className = 'name-cell';
+                    nameCell.textContent = person.name;
+                    row.appendChild(nameCell);
+                    
+                    // Add shift cells
+                    person.shifts.forEach((shift, idx) => {
+                        const cell = document.createElement('td');
+                        
+                        // Apply styling based on shift type and other properties
+                        if (shift === "W") {
+                            cell.className = 'weekend';
+                        } else if (shift === "H") {
+                            cell.className = 'holiday';
+                        } else if (person.isGreenzone[idx]) {
+                            cell.className = 'greenzone';
+                        }
+                        
+                        // Add lead styling
+                        if (person.isLead[idx]) {
+                            cell.classList.add('lead');
+                        }
+                        
+                        // Add leave styling (bold red)
+                        if (shift === "L") {
+                            cell.classList.add('leave');
+                        }
+                        
+                        cell.textContent = shift;
+                        cell.title = getShiftName(shift);
+                        row.appendChild(cell);
+                    });
+                    
+                    tableBody.appendChild(row);
+                });
+            }
+            
+            // Initial render
+            renderTable(scheduleData);
+            
+            // Search functionality
+            const searchInput = document.getElementById('search-input');
+            const clearButton = document.getElementById('clear-button');
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                // Show/hide clear button
+                clearButton.style.display = searchTerm ? 'block' : 'none';
+                
+                // Filter data
+                const filteredData = scheduleData.filter(item => 
+                    item.name.toLowerCase().includes(searchTerm)
+                );
+                
+                // Render filtered data
+                renderTable(filteredData);
+            });
+            
+            clearButton.addEventListener('click', function() {
+                searchInput.value = '';
+                clearButton.style.display = 'none';
+                renderTable(scheduleData);
+            });
         });
     </script>
-
 </body>
 </html>
